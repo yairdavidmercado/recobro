@@ -137,7 +137,7 @@
     </div>
     
     <hr>
-    <form id="form_guardar_myt">
+    <form class="form" id="form_guardar_myt" role="form" methods="POST" onsubmit="event.preventDefault(); return guardar_myt();" autocomplete="off">
       <div class="row mb-4">
         <div class="col-sm-8">
           <div class="card">
@@ -340,13 +340,13 @@
               <div class="form-group row" style="font-size:12px">
                 <label for="staticEmail" class="col-sm-9 col-form-label">Tipo de radicación:</label>
                 <div class="col-sm-3">
-                  <input type="text" readonly class="form-control-plaintext input-sm" id="tipo_radi1">
+                  <input type="text" readonly class="form-control-plaintext input-sm" value="Nueva" name="tipo_radi" id="tipo_radi1">
                 </div>
               </div>
               <div class="form-group row" style="font-size:12px">
                 <label for="staticEmail" class="col-sm-9 col-form-label">No. Radicación recobro anterior MYT-01:</label>
                 <div class="col-sm-3">
-                  <input type="text" readonly class="form-control-plaintext input-sm" id="radi_reco_ant1">
+                  <input type="text" readonly class="form-control-plaintext input-sm" value="1" name="radi_reco_ant" id="radi_reco_ant1">
                 </div>
               </div>
             </div>
@@ -362,31 +362,31 @@
                 <label for="staticEmail" class="col-sm-3 col-form-label">No. Folios</label>
                 <label for="staticEmail" class="col-sm-6 col-form-label">Copia(s) de Acta(s) del CTC</label>
                 <div class="col-sm-3">
-                  <input type="text" id="ca_doc1" name="ca_doc1" class="form-control input-sm">
+                  <input type="text" id="ca_doc1" value="0" name="ca_doc" class="form-control input-sm">
                 </div>
                 <div class="col-sm-3">
-                  <input type="text" id="ca_folio1" name="ca_folio1" class="form-control input-sm">
+                  <input type="text" id="ca_folio1" value="0" name="ca_folio" class="form-control input-sm">
                 </div>
                 <label for="staticEmail" class="col-sm-6 col-form-label">Facturas(s) del Proveedor(es) Cancelada(s)</label>
                 <div class="col-sm-3">
-                  <input type="text" id="fp_doc1" name="fp_doc1" class="form-control input-sm">
+                  <input type="text" id="fp_doc1" value="0" name="fp_doc" class="form-control input-sm">
                 </div>
                 <div class="col-sm-3">
-                  <input type="text" id="fp_folio1" name="fp_folio1" class="form-control input-sm">
+                  <input type="text" id="fp_folio1" value="0" name="fp_folio" class="form-control input-sm">
                 </div>
                 <label for="staticEmail" class="col-sm-6 col-form-label">Orden(es) ó Formula(s) Médica(s)</label>
                 <div class="col-sm-3">
-                  <input type="text" id="of_doc1" name="of_doc1" class="form-control input-sm">
+                  <input type="text" id="of_doc1" value="0" name="of_doc" class="form-control input-sm">
                 </div>
                 <div class="col-sm-3">
-                  <input type="text" id="of_folio1" name="of_folio1" class="form-control input-sm">
+                  <input type="text" id="of_folio1" value="0" name="of_folio" class="form-control input-sm">
                 </div>
                 <label for="staticEmail" class="col-sm-6 col-form-label">Soportes Integrales del Recobro</label>
                 <div class="col-sm-3">
-                  <input type="text" id="si_doc1" name="si_doc1" class="form-control input-sm">
+                  <input type="text" id="si_doc1" value="0" name="si_doc" class="form-control input-sm">
                 </div>
                 <div class="col-sm-3">
-                  <input type="text" id="si_folio1" name="si_folio1" class="form-control input-sm">
+                  <input type="text" id="si_folio1" value="0" name="si_folio" class="form-control input-sm">
                 </div>
               </div>
             </div>
@@ -399,11 +399,17 @@
               <div class="form-group row" style="font-size:11px">
                   <label for="staticEmail" class="col-sm-9 col-form-label">No. Radicación anterior reposa Acta de CTC(Formato MYT-01)</label>
                   <div class="col-sm-3">
-                    <input type="text" id="radi_ant_reposa1" name="radi_ant_reposa1" class="form-control input-sm" value="0">
+                    <input type="text" id="radi_ant_reposa1" value="0" name="radi_ant_reposa" class="form-control input-sm" value="0">
                   </div>
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 mb-2">
+        <button type="submit" id="btn_submit" class="btn btn-success float-right">Guardar</button>
+        <div id="btn_imprimir"></div>
         </div>
       </div>
     </form>
@@ -547,8 +553,10 @@ function ShowPaciente() {
           $("#of_folio1").val(val.of_folio);
           $("#si_folio1").val(val.si_folio);
           $("#radi_ant_reposa1").val(val.radi_ant_reposa);
+          $("#btn_imprimir").html('<a target="_blank" href="tcpdf/examples/myt.php?cod='+$("input[name='tipo']:checked").val()+'&parametro1='+val.cod_admi+'&parametro2='+$("input[name='contrato']:checked").val()+'" class="btn btn-primary float-right">Imprimir</a>')
           });
         }else{
+          $("#btn_imprimir").html("");
           iniciar_modal(mensajeNuevo)
         }
         //$('#example').DataTable().ajax.reload();
@@ -561,26 +569,32 @@ function ShowPaciente() {
     
   }
 
-  function guardar_categoria() {
-      $.ajax({
-        type : 'POST',
-        data: $("#form_guardar_myt").serialize(),
-        url: '/restaurantes/php/categoria/guardar.php',
-        success: function(respuesta) {
-          let obj = JSON.parse(respuesta)
-          if (obj.success) {
-            notificacion("El categoria ha sido guardado exitosamente.", "success")
-            limpiar_form()
-            Showcategoria()
-            $("input[name*='identificacion']").focus()
-          }else{
-            alert('Datos invalidos para el acceso')
+  function guardar_myt() {
+      if ($('#cod_admi').val().length > 0) {
+        $.ajax({
+          type : 'POST',
+          data: $("#form_guardar_myt").serialize()+"&cod_admi="+$('#cod_admi').val()+"&cod_contra="+$('#cod_contra').val()+"&cod_usua=0",
+          url: 'php/guardar_myt.php',
+          beforeSend: function() {
+              $(".loader").css("display", "inline-block")
+          },
+          success: function(respuesta) {
+            $(".loader").css("display", "none")
+            let obj = JSON.parse(respuesta)
+            if (obj.success) {
+              ShowMyt($("#cod_admi").val(), $("#cod_contra").val())
+              alert("Los datos han sido guardados exitosamente")
+            }else{
+              alert('Datos invalidos para el acceso')
+            }
+          },
+          error: function() {
+            console.log("No se ha podido obtener la información");
           }
-        },
-        error: function() {
-          console.log("No se ha podido obtener la información");
-        }
-      });
+        });
+      }else{
+        alert("Usted aun no ha realizado la busqueda del paciente a registrar.")
+      }
       
     }
 
@@ -599,18 +613,18 @@ function ShowPaciente() {
     
     $("#conse_radi1").val("");
     $("#conse_reco1").val("");
-    $("#tipo_radi1").val("");
-    $("#radi_reco_ant1").val("");
+    $("#tipo_radi1").val("Nueva");
+    $("#radi_reco_ant1").val("0");
 
-    $("#ca_doc1").val("");
-    $("#fp_doc1").val("");
-    $("#of_doc1").val("");
-    $("#si_doc1").val("");
-    $("#ca_folio1").val("");
-    $("#fp_folio1").val("");
-    $("#of_folio1").val("");
-    $("#si_folio1").val("");
-    $("#radi_ant_reposa1").val("");
+    $("#ca_doc1").val("0");
+    $("#fp_doc1").val("0");
+    $("#of_doc1").val("0");
+    $("#si_doc1").val("0");
+    $("#ca_folio1").val("0");
+    $("#fp_folio1").val("0");
+    $("#of_folio1").val("0");
+    $("#si_folio1").val("0");
+    $("#radi_ant_reposa1").val("0");
   }
 
   function iniciar_modal(text) {
@@ -625,7 +639,7 @@ function ShowPaciente() {
         '<div class="modal-content">'+
           '<div class="modal-header">'+
             '<h5 class="modal-title" id="exampleModalLabel">Atención</h5>'+
-            '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'+
+            '<button type="button" id="btn_close_modal" class="close" data-dismiss="modal" aria-label="Close">'+
               '<span aria-hidden="true">&times;</span>'+
             '</button>'+
           '</div>'+
@@ -633,13 +647,18 @@ function ShowPaciente() {
             text+
           '</div>'+
           '<div class="modal-footer">'+
+          '<button onclick="click_submit()" type="button" class="btn btn-primary">Crear</button>'+
             '<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>'+
-            '<button onclick="guardar_myt()" type="button" class="btn btn-primary">Crear</button>'+
           '</div>'+
         '</div>'+
       '</div>'+
     '</div>')
     $("#btn_modal").click()
+  }
+
+  function click_submit() {
+    $("#btn_submit").click()
+    $("#btn_close_modal").click()
   }
 
   function tipo_busqueda(consec) {

@@ -32,7 +32,40 @@ try {
 } catch (\Throwable $th) {
 	print $e->getMessage();
 }
-// $cod_pacien = $results[0][0]['cod_pacien'];
+//==============================================================================
+$cod1 = 3;
+$cod_admi = $results[0][0]['cod_admi'];
+$cod_contra = $results[0][0]['cod_contra'];
+
+$conn1 = new PDO("pgsql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME, DB_USER, DB_PASS);
+try {
+	// begin transaction, this is all one process
+	$conn1->beginTransaction();
+	// call the function
+	$stmt1 = $conn1->prepare("select sel_busqueda_paciente(:cod, :parametro1, :parametro2)");
+	$stmt1->bindParam('cod', $cod1, PDO::PARAM_STR);
+	$stmt1->bindParam('parametro1', $cod_admi, PDO::PARAM_STR);
+	$stmt1->bindParam('parametro2', $cod_contra, PDO::PARAM_STR);
+	$stmt1->execute();
+	$cursors1 = $stmt1->fetchAll();
+	$stmt1->closeCursor();
+	// get each result set
+	$results1 = array();
+	foreach($cursors1 as $k1=>$v1){
+		$stmt1 = $conn1->query('FETCH ALL IN "'. $v1[0] .'";');
+		$results1[$k1] = $stmt1->fetchAll();
+		$stmt1->closeCursor();
+	}
+	$conn1->commit();
+	unset($stmt1);
+	//echo json_encode($results);
+	//print_r($results);// all record sets
+	$stmt1 = null; // obligado para cerrar la conexión
+
+} catch (\Throwable $th1) {
+	print $th1->getMessage();
+}
+//echo $results1[0][0]['cod_admi'];
 // $tipo_id_pacien = $results[0][0]['tipo_id_pacien'];
 //============================================================+
 // File name   : example_048.php
@@ -145,19 +178,19 @@ $tbl =
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
 						        <td colspan="6">No. Consecutivo para radicación:</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['conse_radi'].'</td>
 						    </tr>
 						    <tr>
 						        <td colspan="6">No. Consecutivo recobro:</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['conse_reco'].'</td>
 						    </tr>
 						    <tr>
 						        <td colspan="6">Tipo de radicación:</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['tipo_radi'].'</td>
 						    </tr>
 						    <tr>
 						        <td colspan="6">No. Radicación recobro anterior MYT-01:</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['radi_reco_ant'].'</td>
 						    </tr>
 						    <tr>
 						        <td></td>
@@ -244,23 +277,23 @@ $tbl =
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
 						        <td colspan="6">Copia(s) de Acta(s) del CTC / TUTELA</td>
-						        <td colspan="2">1</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['ca_doc'].'</td>
+						        <td colspan="2">'.$results1[0][0]['ca_folio'].'</td>
 						    </tr>
 						    <tr>
 						        <td colspan="6">Facturas(s) del Proveedor(es) Cancelada(s)</td>
-						        <td colspan="2">1</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['fp_doc'].'</td>
+						        <td colspan="2">'.$results1[0][0]['fp_folio'].'</td>
 						    </tr>
 						    <tr>
 						        <td colspan="6">Formula(s) Médica(s)</td>
-						        <td colspan="2">1</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['of_doc'].'</td>
+						        <td colspan="2">'.$results1[0][0]['of_folio'].'</td>
 						    </tr>
 						    <tr>
 						        <td colspan="6">Documento que evidencie la entrega del medicame</td>
-						        <td colspan="2">1</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['si_doc'].'</td>
+						        <td colspan="2">'.$results1[0][0]['si_folio'].'</td>
 						    </tr>
 
 						</table>
@@ -274,10 +307,10 @@ $tbl =
 			        	Totales
 			        </td>
 			        <td colspan="2">
-			        	N° Doc
+					'.$results1[0][0]['total_doc'].'
 			        </td>
 			        <td colspan="2">
-			        	N° Folio
+					'.$results1[0][0]['total_folio'].'
 			        </td>
 			    </tr>
 
@@ -342,7 +375,7 @@ $tbl =
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
 						        <td colspan="6">No. Radicación recobro anterior reposa acta CTC MYT-01</td>
-						        <td colspan="2">1</td>
+						        <td colspan="2">'.$results1[0][0]['radi_ant_reposa'].'</td>
 						    </tr>
 						    <tr>
 						        <td></td>
