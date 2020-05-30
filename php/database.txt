@@ -1,0 +1,629 @@
+-- Table: tmyt
+
+-- DROP TABLE tmyt;
+
+CREATE TABLE tmyt
+(
+  consec integer NOT NULL,
+  cod_admi numeric(20,0),
+  cod_contra integer,
+  conse_radi character varying(6),
+  conse_reco character varying(6),
+  tipo_radi character varying(50),
+  radi_reco_ant character varying(6),
+  ca_doc integer,
+  fp_doc integer,
+  of_doc integer,
+  si_doc integer,
+  ca_folio integer,
+  fp_folio integer,
+  of_folio integer,
+  si_folio integer,
+  radi_ant_reposa character varying(6),
+  cod_usua numeric(19,0),
+  fechaupdate timestamp without time zone,
+  fechacrea timestamp without time zone DEFAULT now(),
+  CONSTRAINT tmyt_pkey PRIMARY KEY (consec)
+)
+WITH (
+  OIDS=FALSE
+);
+-- Table: tmyt_datos_medicamento
+
+-- DROP TABLE tmyt_datos_medicamento;
+
+CREATE TABLE tmyt_datos_medicamento
+(
+  consec serial NOT NULL,
+  cod_admi numeric(20,0),
+  cod_contra integer,
+  nombre character varying(100),
+  presentacion character varying(100),
+  f_uso1 character varying(50),
+  dia_autoriza character varying(10),
+  cantidad1 integer,
+  valor_unit1 numeric(20,0),
+  valor_total1 numeric(20,0),
+  codigo_similar character varying(50),
+  nombre_similar character varying(100),
+  f_uso2 character varying(50),
+  timpo_dia character varying(50),
+  cantidad2 integer,
+  valor_unit2 numeric(20,0),
+  valor_total2 numeric(20,0),
+  estado boolean DEFAULT true,
+  fechacrea timestamp without time zone DEFAULT now(),
+  CONSTRAINT tmyt_datos_medicamento_pkey PRIMARY KEY (consec)
+)
+WITH (
+  OIDS=FALSE
+);
+
+-- Table: tmyt_detalle_recobro
+
+-- DROP TABLE tmyt_detalle_recobro;
+
+CREATE TABLE tmyt_detalle_recobro
+(
+  consec serial NOT NULL,
+  cod_admi numeric(20,0),
+  cod_contra integer,
+  n_acta_ctc character varying(50),
+  fecha_acta_ctc character varying(50),
+  fecha_soli_medica character varying(50),
+  periodico character varying(1),
+  perio_sumi character varying(1),
+  n_factura character varying(50),
+  fecha_presenta_servicio character varying(50),
+  fecha_radica_factu character varying(50),
+  codigo_diag character varying(50),
+  semanas character varying(50),
+  nit_proveedor character varying(50),
+  nombre_proveedor character varying(100),
+  codigo_medi_serv character varying(50),
+  nombre_medi_serv character varying(100),
+  cantidad integer,
+  valor_unit numeric(20,0),
+  valor_total numeric(20,0),
+  valor_cuota_mode numeric(20,0),
+  valor_valor_recobro numeric(20,0),
+  estado boolean DEFAULT true,
+  fechacrea timestamp without time zone DEFAULT now(),
+  CONSTRAINT tmyt_detalle_recobro_pkey PRIMARY KEY (consec)
+)
+WITH (
+  OIDS=FALSE
+);
+
+-- Function: sel_busqueda_paciente(character, character, character)
+
+-- DROP FUNCTION sel_busqueda_paciente(character, character, character);
+
+CREATE OR REPLACE FUNCTION sel_busqueda_paciente(cod character, parametro1 character, parametro2 character)
+  RETURNS refcursor AS
+$BODY$
+
+
+
+DECLARE
+CODE integer;
+C REFCURSOR;
+BEGIN
+IF cod = '1' THEN
+	IF parametro2 = '1' THEN
+		OPEN C FOR 
+		SELECT tpaciente.cod_pacien,
+		tpaciente.tipo_id_pacien,
+		tpaciente.id_pacien,
+		tpaciente.nom1,
+		tpaciente.nom2,
+		tpaciente.apell1,
+		tpaciente.apell2,
+		CASE tpaciente.tipo_afiliado WHEN '1' THEN 'COTIZANTE' WHEN '2' THEN 'BENEFICIARIO' WHEN '3' THEN 'ADICIONAL' END AS tipoafiliado, 
+		tpaciente.nivel,
+		tentidad.nom_ase, 
+		tpaciente.tipo_afiliado,
+		tadmision.fecha_ingre, 
+		tatiene.cod_contra,
+		tatiene.num_autori, 
+		tcontrato.nom_contra,
+		tcontrato.codmin, 
+		ttarifa.cod_tar, 
+		ttarifa.nom_tar, 
+		tsalidas.fecha_egre,
+		sel_edad_completa(tpaciente.fecha_nac) as edad,
+		tadmision.cod_admi,
+		ttar_med.cod_tarm,
+		ttar_med.nom_tarm,
+		tatiene.num_factu,
+		dir_pacien,
+		tel_pacien,
+		tadmision.activa,
+		copago,
+		ingreso,
+		pacientetercero,
+		id_ase,
+		diasc,
+		cta,
+		case when cuot_recup=false then 0 when cuot_recup=true then 1 else 0 end as cuot_recup,
+		sel_fecha_server() as fecha_server,
+		tatiene.id_med,
+		tatiene.cod_diag,
+		nom_med,
+		nom_diag as nomdiag,
+		tip_factu,
+		sexo_pacien,
+		tpaciente.fecha_nac
+		FROM tadmision
+		JOIN tatiene ON tatiene.cod_admi = tadmision.cod_admi
+		JOIN tcontrato ON tatiene.cod_contra = tcontrato.cod_contra
+		JOIN ttarifa ON tcontrato.cod_tar = ttarifa.cod_tar
+		JOIN tpaciente ON tadmision.cod_pacien = tpaciente.cod_pacien
+		join ttar_med  on ttar_med.cod_tarm=tcontrato.cod_tarm
+		join tentidad on tcontrato.codentidad=tentidad.codentidad
+		left join tmedico on tmedico.codigo=tatiene.id_med::integer
+		INNER JOIN t_formapago ON tcontrato.id_formapago = t_formapago.id_formapago
+		left join tdiagnostico on tdiagnostico.cod_diag=tatiene.cod_diag
+		LEFT JOIN tsalidas ON tadmision.cod_admi = tsalidas.cod_admi
+		WHERE tadmision.cod_admi = parametro1::integer and tcontrato.codmin = '23000' and tadmision.activa=true;
+		RETURN C;
+	ELSIF parametro2 = '2' THEN
+		OPEN C FOR 
+		SELECT tpaciente.cod_pacien,
+		tpaciente.tipo_id_pacien,
+		tpaciente.id_pacien,
+		tpaciente.nom1,
+		tpaciente.nom2,
+		tpaciente.apell1,
+		tpaciente.apell2,
+		CASE tpaciente.tipo_afiliado WHEN '1' THEN 'COTIZANTE' WHEN '2' THEN 'BENEFICIARIO' WHEN '3' THEN 'ADICIONAL' END AS tipoafiliado, 
+		tpaciente.nivel,
+		tentidad.nom_ase, 
+		tpaciente.tipo_afiliado,
+		tadmision.fecha_ingre, 
+		tatiene.cod_contra,
+		tatiene.num_autori, 
+		tcontrato.nom_contra,
+		tcontrato.codmin, 
+		ttarifa.cod_tar, 
+		ttarifa.nom_tar, 
+		tsalidas.fecha_egre,
+		sel_edad_completa(tpaciente.fecha_nac) as edad,
+		tadmision.cod_admi,
+		ttar_med.cod_tarm,
+		ttar_med.nom_tarm,
+		tatiene.num_factu,
+		dir_pacien,
+		tel_pacien,
+		tadmision.activa,
+		copago,
+		ingreso,
+		pacientetercero,
+		id_ase,
+		diasc,
+		cta,
+		case when cuot_recup=false then 0 when cuot_recup=true then 1 else 0 end as cuot_recup,
+		sel_fecha_server() as fecha_server,
+		tatiene.id_med,
+		tatiene.cod_diag,
+		nom_med,
+		nom_diag as nomdiag,
+		tip_factu,
+		sexo_pacien,
+		tpaciente.fecha_nac
+		FROM tadmision
+		JOIN tatiene ON tatiene.cod_admi = tadmision.cod_admi
+		JOIN tcontrato ON tatiene.cod_contra = tcontrato.cod_contra
+		JOIN ttarifa ON tcontrato.cod_tar = ttarifa.cod_tar
+		JOIN tpaciente ON tadmision.cod_pacien = tpaciente.cod_pacien
+		join ttar_med  on ttar_med.cod_tarm=tcontrato.cod_tarm
+		join tentidad on tcontrato.codentidad=tentidad.codentidad
+		left join tmedico on tmedico.codigo=tatiene.id_med::integer
+		INNER JOIN t_formapago ON tcontrato.id_formapago = t_formapago.id_formapago
+		left join tdiagnostico on tdiagnostico.cod_diag=tatiene.cod_diag
+		LEFT JOIN tsalidas ON tadmision.cod_admi = tsalidas.cod_admi
+		WHERE tadmision.cod_admi = parametro1::integer and tcontrato.codmin <> '23000' and tadmision.activa=true;
+		RETURN C;
+	END IF;
+ELSIF cod = '2' THEN
+	IF parametro2 = '1' THEN
+		OPEN C FOR 
+		SELECT tpaciente.cod_pacien,
+		tpaciente.tipo_id_pacien,
+		tpaciente.id_pacien,
+		tpaciente.nom1,
+		tpaciente.nom2,
+		tpaciente.apell1,
+		tpaciente.apell2,
+		CASE tpaciente.tipo_afiliado WHEN '1' THEN 'COTIZANTE' WHEN '2' THEN 'BENEFICIARIO' WHEN '3' THEN 'ADICIONAL' END AS tipoafiliado, 
+		tpaciente.nivel,
+		tentidad.nom_ase, 
+		tpaciente.tipo_afiliado,
+		tadmision.fecha_ingre, 
+		tatiene.cod_contra,
+		tatiene.num_autori, 
+		tcontrato.nom_contra,
+		tcontrato.codmin, 
+		ttarifa.cod_tar, 
+		ttarifa.nom_tar, 
+		tsalidas.fecha_egre,
+		sel_edad_completa(tpaciente.fecha_nac) as edad,
+		tadmision.cod_admi,
+		ttar_med.cod_tarm,
+		ttar_med.nom_tarm,
+		tatiene.num_factu,
+		dir_pacien,
+		tel_pacien,
+		tadmision.activa,
+		copago,
+		ingreso,
+		pacientetercero,
+		id_ase,
+		diasc,
+		cta,
+		case when cuot_recup=false then 0 when cuot_recup=true then 1 else 0 end as cuot_recup,
+		sel_fecha_server() as fecha_server,
+		tatiene.id_med,
+		tatiene.cod_diag,
+		nom_med,
+		nom_diag as nomdiag,
+		tip_factu,
+		sexo_pacien,
+		tpaciente.fecha_nac
+		FROM tadmision
+		JOIN tatiene ON tatiene.cod_admi = tadmision.cod_admi
+		JOIN tcontrato ON tatiene.cod_contra = tcontrato.cod_contra
+		JOIN ttarifa ON tcontrato.cod_tar = ttarifa.cod_tar
+		JOIN tpaciente ON tadmision.cod_pacien = tpaciente.cod_pacien
+		join ttar_med  on ttar_med.cod_tarm=tcontrato.cod_tarm
+		join tentidad on tcontrato.codentidad=tentidad.codentidad
+		left join tmedico on tmedico.codigo=tatiene.id_med::integer
+		INNER JOIN t_formapago ON tcontrato.id_formapago = t_formapago.id_formapago
+		left join tdiagnostico on tdiagnostico.cod_diag=tatiene.cod_diag
+		LEFT JOIN tsalidas ON tadmision.cod_admi = tsalidas.cod_admi
+		WHERE tatiene.num_factu = parametro1 and tcontrato.codmin = '23000' and tadmision.activa=true;
+		RETURN C;
+	ELSIF parametro2 = '2' THEN
+		OPEN C FOR 
+		SELECT tpaciente.cod_pacien,
+		tpaciente.tipo_id_pacien,
+		tpaciente.id_pacien,
+		tpaciente.nom1,
+		tpaciente.nom2,
+		tpaciente.apell1,
+		tpaciente.apell2,
+		CASE tpaciente.tipo_afiliado WHEN '1' THEN 'COTIZANTE' WHEN '2' THEN 'BENEFICIARIO' WHEN '3' THEN 'ADICIONAL' END AS tipoafiliado, 
+		tpaciente.nivel,
+		tentidad.nom_ase, 
+		tpaciente.tipo_afiliado,
+		tadmision.fecha_ingre, 
+		tatiene.cod_contra,
+		tatiene.num_autori, 
+		tcontrato.nom_contra,
+		tcontrato.codmin, 
+		ttarifa.cod_tar, 
+		ttarifa.nom_tar, 
+		tsalidas.fecha_egre,
+		sel_edad_completa(tpaciente.fecha_nac) as edad,
+		tadmision.cod_admi,
+		ttar_med.cod_tarm,
+		ttar_med.nom_tarm,
+		tatiene.num_factu,
+		dir_pacien,
+		tel_pacien,
+		tadmision.activa,
+		copago,
+		ingreso,
+		pacientetercero,
+		id_ase,
+		diasc,
+		cta,
+		case when cuot_recup=false then 0 when cuot_recup=true then 1 else 0 end as cuot_recup,
+		sel_fecha_server() as fecha_server,
+		tatiene.id_med,
+		tatiene.cod_diag,
+		nom_med,
+		nom_diag as nomdiag,
+		tip_factu,
+		sexo_pacien,
+		tpaciente.fecha_nac
+		FROM tadmision
+		JOIN tatiene ON tatiene.cod_admi = tadmision.cod_admi
+		JOIN tcontrato ON tatiene.cod_contra = tcontrato.cod_contra
+		JOIN ttarifa ON tcontrato.cod_tar = ttarifa.cod_tar
+		JOIN tpaciente ON tadmision.cod_pacien = tpaciente.cod_pacien
+		join ttar_med  on ttar_med.cod_tarm=tcontrato.cod_tarm
+		join tentidad on tcontrato.codentidad=tentidad.codentidad
+		left join tmedico on tmedico.codigo=tatiene.id_med::integer
+		INNER JOIN t_formapago ON tcontrato.id_formapago = t_formapago.id_formapago
+		left join tdiagnostico on tdiagnostico.cod_diag=tatiene.cod_diag
+		LEFT JOIN tsalidas ON tadmision.cod_admi = tsalidas.cod_admi
+		WHERE tatiene.num_factu = parametro1 and tcontrato.codmin <> '23000' and tadmision.activa=true;
+		RETURN C;
+	END IF;	
+ELSIF cod = '3' THEN
+	OPEN C FOR 
+	SELECT *, ca_doc+fp_doc+of_doc+si_doc AS total_doc, ca_folio+fp_folio+of_folio+si_folio AS total_folio FROM tmyt
+	WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer;
+	RETURN C;
+ELSIF cod = '4' THEN
+	SELECT INTO CODE consec FROM tmyt_detalle_recobro WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer and estado = true;
+	IF NOT FOUND THEN
+		INSERT INTO tmyt_detalle_recobro(
+		    cod_admi, cod_contra, n_acta_ctc, fecha_acta_ctc, fecha_soli_medica, 
+		    periodico, perio_sumi, n_factura, fecha_presenta_servicio, fecha_radica_factu, 
+		    codigo_diag, semanas, nit_proveedor, nombre_proveedor, codigo_medi_serv, 
+		    nombre_medi_serv, cantidad, valor_unit, valor_total, valor_cuota_mode, 
+		    valor_valor_recobro)
+			select tadmision.cod_admi,tcontrato.cod_contra::integer as cod_contra , '' AS n_acta_ctc, '' AS fecha_acta_ctc, '' AS fecha_soli_medica,
+			'S' as periodico, '0' as perio_sumi, tfactu_admi.num_factu as n_factura,FECHA_ingre::date as fecha_presenta_servicio, '' as fecha_radica_factu,
+			tatiene.cod_diag as codigo_diag, '' as semanas,nit as nit_proveedor, razon as nombre_proveedor, codcum as codigo_medi_serv,
+			nombrenopos as nombre_medi_serv, sum(can_con) as cantidad, valor_factu as valor_unit, sum(can_con*valor_factu) as valor_total, 0 as valor_cuota_mode,
+			sum(can_con*valor_factu) as valor_valor_recobro
+			from tadmision
+			JOIN TPACIENTE on tpaciente.cod_pacien=tadmision.cod_pacien
+			join tatiene on tadmision.cod_admi=tatiene.cod_admi
+			join tfactu_admi on tfactu_admi.cod_admi=tatiene.cod_admi and tfactu_admi.cod_contra=tatiene.cod_contra
+			join t_maestro on t_maestro.numdcto=tfactu_admi.num_factu::numeric and t_maestro.tipodcto=tfactu_admi.tipodcto
+			join tres_factu on tres_factu.cod_res=tfactu_admi.cod_res
+			join tnotacargo on tnotacargo.cod_admi=tatiene.cod_admi and tnotacargo.cod_contra=tatiene.cod_contra
+			join tnotacon on tnotacargo.num_nota=tnotacon.num_nota
+			join (select descripcion as nombrenopos,id_prod from t_productos where agrupo_rips in ('12','13')) as tnp1 on tnp1.id_prod=tnotacon.cod_con
+			join tcontrato on tcontrato.cod_contra=tatiene.cod_contra
+			join tentidad on tentidad.codentidad=tcontrato.codentidad
+			left join tctc on tadmision.cod_admi=tctc.admision and tctc.id_prod=tnotacon.cod_con
+			left join (SELECT codctc,coddiag FROM tdx_tctc where orden=1) AS T2 on tctc.consec=t2.codctc
+			left join (SELECT ID_PROD,descripcion FROM t_productos where agrupo_rips in ('12','13')) AS t_productos on t_productos.id_prod=tctc.id_prod
+			left join tctc_detalle on tctc.consec=tctc_detalle.codctc and tctc_detalle.id_prod=tnotacon.cod_con
+			left join (SELECT cod_con,cod_admi,cod_con as codservhom,descripcion as nombrehomo,sum(can_con) as canthom,valor_factu as vrunihom,sum(can_con*valor_factu) as vr_factuhomo
+			  FROM tnotacon
+			  join tnotacargo on tnotacargo.num_nota=tnotacon.num_nota
+			  join t_productos on t_productos.id_prod=tnotacon.cod_con
+			   where homologo=true and tnotacargo.tiposervicio=2  and agrupo_rips in ('12','13')
+			   group by 1,2,3,4,6) as thom on tadmision.cod_admi=thom.cod_admi  and  tnotacon.cod_con=thom.cod_con
+			left join tdetalle_despacho_medi as tdet on tnotacon.conse=tdet.conse
+			left join tkardex as tk on tdet.idkardex=tk.id
+			left join tmedicum as tcum on tcum.id_prod=tk.id_prod and tcum.cod_lab=tk.laboratorio,
+			(select tipo_id,id as nit,nombre as razon from tparametros) as t1
+			where tadmision.cod_admi=parametro1::numeric and tcontrato.cod_contra = parametro2::integer and tnotacon.no_facturables=0 --and t_productos.agrupo_rips ='12' and t_productos.agrupo_rips ='13' -- codio del contrato que quieren mostrar
+			group by tadmision.cod_admi, tcontrato.cod_contra,nom_ase,nom_contra,tipo_id_pacien,id_pacien,nom1,nom2,apell1,apell2,tipo_id,nit,razon,pref1,tfactu_admi.num_factu,subtotal,FECHA_ingre::date,
+			tatiene.cod_diag,codcum,nombrenopos,valor_factu,codservhom,nombrehomo,canthom,vrunihom,vr_factuhomo
+			order by 1;
+		OPEN C FOR
+		SELECT * FROM tmyt_detalle_recobro WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer order by 1; 
+		RETURN C;
+	ELSE
+		OPEN C FOR
+		SELECT * FROM tmyt_detalle_recobro WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer order by 1;
+		RETURN C;
+	END IF;
+ELSIF cod = '5' THEN
+		OPEN C FOR
+		SELECT * FROM tmyt_detalle_recobro WHERE consec = parametro1::integer order by 1;
+		RETURN C;
+ELSIF cod = '6' THEN
+	SELECT INTO CODE consec FROM tmyt_datos_medicamento WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer and estado = true;
+	IF NOT FOUND THEN
+		INSERT INTO tmyt_datos_medicamento(
+			    cod_admi, cod_contra, nombre, presentacion, f_uso1, dia_autoriza, 
+			    cantidad1, valor_unit1, valor_total1, codigo_similar, nombre_similar, 
+			    f_uso2, timpo_dia, cantidad2, valor_unit2, valor_total2)
+			select tadmision.cod_admi,tcontrato.cod_contra::integer as cod_contra,nombrenopos as nombre, '' AS presentacion, '' AS f_uso1 , '' AS dia_autoriza,
+			sum(can_con) as cantidad1, valor_factu as valor_unit1, sum(can_con*valor_factu) as valor_total1, '' as codigo_similar, '' as nombre_similar,
+			'' as f_uso2, '0' as timpo_dia, sum(can_con) as cantidad2, '0' as valor_unit2,'0' as valor_total2
+			from tadmision
+			JOIN TPACIENTE on tpaciente.cod_pacien=tadmision.cod_pacien
+			join tatiene on tadmision.cod_admi=tatiene.cod_admi
+			join tfactu_admi on tfactu_admi.cod_admi=tatiene.cod_admi and tfactu_admi.cod_contra=tatiene.cod_contra
+			join t_maestro on t_maestro.numdcto=tfactu_admi.num_factu::numeric and t_maestro.tipodcto=tfactu_admi.tipodcto
+			join tres_factu on tres_factu.cod_res=tfactu_admi.cod_res
+			join tnotacargo on tnotacargo.cod_admi=tatiene.cod_admi and tnotacargo.cod_contra=tatiene.cod_contra
+			join tnotacon on tnotacargo.num_nota=tnotacon.num_nota
+			join (select descripcion as nombrenopos,id_prod from t_productos where agrupo_rips in ('12','13')) as tnp1 on tnp1.id_prod=tnotacon.cod_con
+			join tcontrato on tcontrato.cod_contra=tatiene.cod_contra
+			join tentidad on tentidad.codentidad=tcontrato.codentidad
+			left join tctc on tadmision.cod_admi=tctc.admision and tctc.id_prod=tnotacon.cod_con
+			left join (SELECT codctc,coddiag FROM tdx_tctc where orden=1) AS T2 on tctc.consec=t2.codctc
+			left join (SELECT ID_PROD,descripcion FROM t_productos where agrupo_rips in ('12','13')) AS t_productos on t_productos.id_prod=tctc.id_prod
+			left join tctc_detalle on tctc.consec=tctc_detalle.codctc and tctc_detalle.id_prod=tnotacon.cod_con
+			left join (SELECT cod_con,cod_admi,cod_con as codservhom,descripcion as nombrehomo,sum(can_con) as canthom,valor_factu as vrunihom,sum(can_con*valor_factu) as vr_factuhomo
+			  FROM tnotacon
+			  join tnotacargo on tnotacargo.num_nota=tnotacon.num_nota
+			  join t_productos on t_productos.id_prod=tnotacon.cod_con
+			   where homologo=true and tnotacargo.tiposervicio=2  and agrupo_rips in ('12','13')
+			   group by 1,2,3,4,6) as thom on tadmision.cod_admi=thom.cod_admi  and  tnotacon.cod_con=thom.cod_con
+			left join tdetalle_despacho_medi as tdet on tnotacon.conse=tdet.conse
+			left join tkardex as tk on tdet.idkardex=tk.id
+			left join tmedicum as tcum on tcum.id_prod=tk.id_prod and tcum.cod_lab=tk.laboratorio,
+			(select tipo_id,id as nit,nombre as razon from tparametros) as t1
+			where tadmision.cod_admi=parametro1::numeric and tcontrato.cod_contra = parametro2::integer and tnotacon.no_facturables=0 --and t_productos.agrupo_rips ='12' and t_productos.agrupo_rips ='13' -- codio del contrato que quieren mostrar
+			group by tadmision.cod_admi, tcontrato.cod_contra,nom_ase,nom_contra,tipo_id_pacien,id_pacien,nom1,nom2,apell1,apell2,tipo_id,nit,razon,pref1,tfactu_admi.num_factu,subtotal,FECHA_ingre::date,
+			tatiene.cod_diag,codcum,nombrenopos,valor_factu,codservhom,nombrehomo,canthom,vrunihom,vr_factuhomo
+			order by 1;
+		OPEN C FOR
+		SELECT * FROM tmyt_datos_medicamento WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer order by 1; 
+		RETURN C;
+	ELSE
+		OPEN C FOR
+		SELECT * FROM tmyt_datos_medicamento WHERE cod_admi = parametro1::numeric and cod_contra = parametro2::integer order by 1;
+		RETURN C;
+	END IF;
+ELSIF cod = '7' THEN
+		OPEN C FOR
+		SELECT * FROM tmyt_datos_medicamento WHERE consec = parametro1::integer order by 1;
+		RETURN C;
+END IF;
+END;
+
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION sel_busqueda_paciente(character, character, character)
+  OWNER TO postgres;
+-- Function: guardar_myt(character, character, character, character, character, character, character, character, character, character, character, character, character, character)
+
+-- DROP FUNCTION guardar_myt(character, character, character, character, character, character, character, character, character, character, character, character, character, character);
+
+CREATE OR REPLACE FUNCTION guardar_myt(cod_admi1 character, cod_contra1 character, tipo_radi1 character, radi_reco_ant1 character, ca_doc1 character, fp_doc1 character, of_doc1 character, si_doc1 character, ca_folio1 character, fp_folio1 character, of_folio1 character, si_folio1 character, radi_ant_reposa1 character, cod_usua1 character)
+  RETURNS character AS
+$BODY$
+declare
+num_conce numeric;
+result_consec text;
+id numeric;
+BEGIN
+SELECT INTO id consec from tmyt where cod_admi = cod_admi1::numeric AND cod_contra = cod_contra1::integer;
+if not found then
+SELECT INTO num_conce coalesce (max(consec),0)+1 FROM tmyt;
+	IF length(num_conce::text) = 1 THEN  
+		result_consec = '00000'||num_conce::text;  
+	ELSIF length(num_conce::text) = 2 THEN  
+		result_consec = '0000'||num_conce::text; 
+	ELSIF length(num_conce::text) = 3 THEN 
+		result_consec = '000'||num_conce::text;  
+	ELSIF length(num_conce::text) => 4 THEN  
+		result_consec = '00'||num_conce::text; 
+	ELSIF length(num_conce::text) => 5 THEN  
+		result_consec = '0'||num_conce::text; 
+	ELSIF length(num_conce::text) => 6 THEN  
+		result_consec = num_conce::text; 
+	END IF;
+	
+    INSERT INTO tmyt(
+            consec, cod_admi, cod_contra, conse_radi, conse_reco, tipo_radi, 
+            radi_reco_ant, ca_doc, fp_doc, of_doc, si_doc, ca_folio, fp_folio, 
+            of_folio, si_folio, radi_ant_reposa, cod_usua)
+    VALUES (
+            num_conce, cod_admi1::numeric, cod_contra1::integer, result_consec, result_consec, tipo_radi1, 
+            radi_reco_ant1, ca_doc1::integer, fp_doc1::integer, of_doc1::integer, si_doc1::integer, ca_folio1::integer, fp_folio1::integer, 
+            of_folio1::integer, si_folio1::integer, radi_ant_reposa1, cod_usua1::numeric);
+	RETURN 1;
+ else
+	UPDATE tmyt
+	   SET 	ca_doc=ca_doc1::integer, 
+		fp_doc=fp_doc1::integer, 
+		of_doc=of_doc1::integer, 
+		si_doc=si_doc1::integer, 
+		ca_folio=ca_folio1::integer, 
+		fp_folio=fp_folio1::integer, 
+		of_folio=of_folio1::integer, 
+		si_folio=si_folio1::integer, 
+		radi_ant_reposa=radi_ant_reposa1, 
+	       cod_usua=cod_usua1::numeric, 
+	       fechaupdate= now()
+	 WHERE consec = id::integer;
+	return id::integer;
+    end if;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION guardar_myt(character, character, character, character, character, character, character, character, character, character, character, character, character, character)
+  OWNER TO postgres;
+-- Function: guardar_myt_datos_medicamento(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character)
+
+-- DROP FUNCTION guardar_myt_datos_medicamento(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character);
+
+CREATE OR REPLACE FUNCTION guardar_myt_datos_medicamento(id1 character, cod_admi1 character, cod_contra1 character, nombre1 character, presentacion1 character, f_uso11 character, dia_autoriza1 character, cantidad11 character, valor_unit11 character, valor_total11 character, codigo_similar1 character, nombre_similar1 character, f_uso21 character, timpo_dia1 character, cantidad21 character, valor_unit21 character, valor_total21 character)
+  RETURNS character AS
+$BODY$
+declare
+id numeric;
+BEGIN
+SELECT INTO id consec from tmyt_datos_medicamento where consec = id1::integer;
+if not found then
+	
+    INSERT INTO tmyt_datos_medicamento(
+            cod_admi, cod_contra, nombre, presentacion, f_uso1, dia_autoriza, 
+	    cantidad1, valor_unit1, valor_total1, codigo_similar, nombre_similar, 
+	    f_uso2, timpo_dia, cantidad2, valor_unit2, valor_total2)
+    VALUES (
+            cod_admi1::numeric, cod_contra1::integer, nombre1, presentacion1, f_uso11, dia_autoriza1, 
+	    cantidad11::integer, valor_unit11::numeric, valor_total11::numeric, codigo_similar1, nombre_similar1, 
+	    f_uso21, timpo_dia1, cantidad21::integer, valor_unit21::numeric, valor_total21::numeric);
+	RETURN 1;
+ else
+	UPDATE tmyt_datos_medicamento
+	   SET 	cod_admi = cod_admi1::numeric, 
+		cod_contra = cod_contra1::integer, 
+		nombre = nombre1, 
+		presentacion = presentacion1, 
+		f_uso = f_uso11, 
+		dia_autoriza = dia_autoriza1, 
+		cantidad1 = cantidad11::integer, 
+		valor_unit1 = valor_unit11::numeric, 
+		valor_total1 = valor_total11::numeric, 
+		codigo_similar = codigo_similar1, 
+		nombre_similar = nombre_similar1, 
+		f_uso2 = f_uso21, 
+		timpo_dia = timpo_dia1, 
+		cantidad2 = cantidad21::integer, 
+		valor_unit2 = valor_unit21::numeric, 
+		valor_total2 = valor_total21::numeric
+	 WHERE consec = id::integer;
+	return 0;
+    end if;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION guardar_myt_datos_medicamento(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character)
+  OWNER TO postgres;
+-- Function: guardar_myt_detalle_recobro(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character)
+
+-- DROP FUNCTION guardar_myt_detalle_recobro(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character);
+
+CREATE OR REPLACE FUNCTION guardar_myt_detalle_recobro(id1 character, cod_admi1 character, cod_contra1 character, n_acta_ctc1 character, fecha_acta_ctc1 character, fecha_soli_medica1 character, periodico1 character, perio_sumi1 character, n_factura1 character, fecha_presenta_servicio1 character, fecha_radica_factu1 character, codigo_diag1 character, semanas1 character, nit_proveedor1 character, nombre_proveedor1 character, codigo_medi_serv1 character, nombre_medi_serv1 character, cantidad1 character, valor_unit1 character, valor_total1 character, valor_cuota_mode1 character, valor_valor_recobro1 character)
+  RETURNS character AS
+$BODY$
+declare
+id numeric;
+BEGIN
+SELECT INTO id consec from tmyt_detalle_recobro where consec = id1::integer;
+if not found then
+	
+    INSERT INTO tmyt_detalle_recobro(
+            cod_admi, cod_contra, n_acta_ctc, fecha_acta_ctc, fecha_soli_medica, 
+            periodico, perio_sumi, n_factura, fecha_presenta_servicio, fecha_radica_factu, 
+            codigo_diag, semanas, nit_proveedor, nombre_proveedor, codigo_medi_serv, 
+            nombre_medi_serv, cantidad, valor_unit, valor_total, valor_cuota_mode, 
+            valor_valor_recobro)
+    VALUES (
+            cod_admi1::numeric, cod_contra1::integer, n_acta_ctc1, fecha_acta_ctc1, fecha_soli_medica1, 
+            periodico1, perio_sumi1, n_factura1, fecha_presenta_servicio1, fecha_radica_factu1, 
+            codigo_diag1, semanas1, nit_proveedor1, nombre_proveedor1, codigo_medi_serv1, 
+            nombre_medi_serv1, cantidad1::integer, valor_unit1::numeric, valor_total1::numeric, valor_cuota_mode1::numeric, 
+            valor_valor_recobro1::numeric);
+	RETURN 1;
+ else
+	UPDATE tmyt_detalle_recobro
+	   SET 	cod_admi = cod_admi1::numeric, 
+		cod_contra = cod_contra1::integer, 
+		n_acta_ctc = n_acta_ctc1, 
+		fecha_acta_ctc = fecha_acta_ctc1, 
+		fecha_soli_medica = fecha_soli_medica1, 
+		periodico = periodico1, 
+		perio_sumi = perio_sumi1, 
+		n_factura = n_factura1, 
+		fecha_presenta_servicio = fecha_presenta_servicio1, 
+		fecha_radica_factu = fecha_radica_factu1, 
+		codigo_diag = codigo_diag1, 
+		semanas = semanas1, 
+		nit_proveedor = nit_proveedor1, 
+		nombre_proveedor = nombre_proveedor1, 
+		codigo_medi_serv = codigo_medi_serv1, 
+		nombre_medi_serv = nombre_medi_serv1, 
+		cantidad = cantidad1::integer, 
+		valor_unit = valor_unit1::numeric, 
+		valor_total = valor_total1::numeric, 
+		valor_cuota_mode = valor_cuota_mode1::numeric, 
+		valor_valor_recobro = valor_valor_recobro1::numeric 
+	 WHERE consec = id::integer;
+	return 0;
+    end if;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION guardar_myt_detalle_recobro(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character)
+  OWNER TO postgres;

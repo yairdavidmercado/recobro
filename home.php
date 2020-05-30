@@ -62,13 +62,17 @@
         background: #fff; 
         color: #000; 
         font-weight: bold;
-        font-size: 10px; 
+        font-size: 8px; 
       }
       td, th { 
         padding: 6px; 
         border: 1px solid #ccc; 
         text-align: left; 
-        font-size: 10px;
+        font-size: 8px;
+        cursor: pointer;
+      }
+      .nombre_medicamento {
+        width: 200px;
       }
     </style>
   </head>
@@ -237,7 +241,7 @@
                   <th>Valor Recobro</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="detalle_recobro">
                 <tr>
                   <td></td>
                   <td></td>
@@ -273,7 +277,7 @@
                   <b>MEDICAMENTO / SERVICIO MEDICO / PRESTACION DE SALUD - NO POS</b>
                 </div>
                 <div class="col-sm-6" style="font-size:10px">
-                  <b>MEDICAMENTO / SERVICIO MEDICO / PRESTACION DE SALUD - NO POS</b>
+                  <b>SIMILAR O QUE REEMPLAZA POS</b>
                 </div>
               </div>
               <table>
@@ -296,7 +300,7 @@
                   <th>Valor Total</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="detalle_medicamento">
                 <tr>
                   <td></td>
                   <td></td>
@@ -415,36 +419,111 @@
     </form>
     <div id="div_modal">
     </div>
-    <!-- <div class="table-responsive-sm" >
-      <table id="example" style="font-size:11px" class="table table-striped table-bordered" >
-          <thead >
-              <tr>
-                  <th style="width:10px">Radicado</th>
-                  <th style="width:300px">Nombre</th>
-                  <th style="width:300px">Asunto</th>
-                  <th style="width:150px">Fecha</th>
-                  <th style="width:10px">Tramite</th>
-                  <th style="width:10px">Respuesta</th>
-                  <th style="width:10px">Descargar radicado</th>
-                  <th style="width:10px">Descargar respuesta</th>
-              </tr>
-          </thead>
-          <tbody id="tbodytable">
-              
-          </tbody>
-          <tfoot>
-              <tr>
-                  <th style="width:10px">Radicado</th>
-                  <th style="width:300px">Nombre</th>
-                  <th style="width:300px">Asunto</th>
-                  <th style="width:10px">Fecha</th>
-                  <th style="width:10px">Tramite</th>
-                  <th style="width:10px">Respuesta</th>
-                  <th style="width:10px"></th>
-              </tr>
-          </tfoot>
-      </table>
-    </div> -->
+    <!-- Large modal -->
+    <button type="button" style="display:none" id="btn_modal_detalle_recobro" class="btn btn-primary" data-toggle="modal" data-target="#modal_detalle_recobro">Large modal</button>
+
+    <div class="modal fade bd-example-modal-lg" id="modal_detalle_recobro" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form class="form card" id="form_guardar_myt_detalle_recobro" role="form" methods="POST" onsubmit="event.preventDefault(); return guardar_myt_detalle_recobro();" autocomplete="off">
+            <div class="card-header">
+              <button type="button" id="modal_close_detalle_recobro" class="close float-right" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h5>Recobro</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-sm-4" style="display:none">
+                    <!-- <input type="text" id="cod_admin_detalle_recobro1" class="form-control input-sm">
+                    <input type="text" id="cod_contra_detalle_recobro1" class="form-control input-sm"> -->
+                    <input type="text" id="id_detalle_recobro" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">No.Acta CTC</label>
+                    <input type="text" id="n_acta_ctc1" name="n_acta_ctc" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Fecha Acta CTC</label>
+                    <input type="text" id="fecha_acta_ctc1" name="fecha_acta_ctc" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Fecha Solicitud Médico</label>
+                    <input type="text" id="fecha_soli_medica1" name="fecha_soli_medica" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Periodico (S/N)</label>
+                    <input type="text" id="periodico1" name="periodico" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Periodo Suministro</label>
+                    <input type="text" id="perio_sumi1" name="perio_sumi" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">No. Factura</label>
+                    <input type="text" id="n_factura1" name="n_factura" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Fecha Prestación de Servicio</label>
+                    <input type="text" id="fecha_presenta_servicio1" name="fecha_presenta_servicio" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Fecha Radicacion Factura</label>
+                    <input type="text" id="fecha_radica_factu1" name="fecha_radica_factu" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Codigo Diagnostico (CIE)</label>
+                    <input type="text" id="codigo_diag1" name="codigo_diag" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">% Semanas</label>
+                    <input type="text" id="semanas1" name="semanas" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">NIT Proveedor</label>
+                    <input type="text" id="nit_proveedor1" name="nit_proveedor" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Nombre Proveedor</label>
+                    <input type="text" id="nombre_proveedor1" name="nombre_proveedor" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Codigo Medicamento.</label>
+                    <input type="text" id="codigo_medi_serv1" name="codigo_medi_serv" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Nombre Medicamento.</label>
+                    <input type="text" id="nombre_medi_serv1" name="nombre_medi_serv" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Cantidad</label>
+                    <input type="text" id="cantidad1" name="cantidad" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Unitario</label>
+                    <input type="text" id="valor_unit1" name="valor_unit" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Total</label>
+                    <input type="text" id="valor_total1" name="valor_total" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Cuota Moderadora</label>
+                    <input type="text" id="valor_cuota_mode1" name="valor_cuota_mode" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Recobro</label>
+                    <input type="text" id="valor_valor_recobro1" name="valor_valor_recobro" class="form-control input-sm">
+                  </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="float-right btn btn-success">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     
   </div>
 </div>
@@ -500,6 +579,8 @@ function ShowPaciente() {
             $("#nom_ase").val(val.nom_ase);
             $("#codmin").val(val.codmin);
             ShowMyt(val.cod_admi, val.cod_contra)
+            detalle_recobro(val.cod_admi, val.cod_contra)
+            detalle_medicamento(val.cod_admi, val.cod_contra)
           });
           //$('#example').DataTable().ajax.reload();
         }else{
@@ -583,6 +664,8 @@ function ShowPaciente() {
             let obj = JSON.parse(respuesta)
             if (obj.success) {
               ShowMyt($("#cod_admi").val(), $("#cod_contra").val())
+              detalle_recobro($("#cod_admi").val(), $("#cod_contra").val())
+              detalle_medicamento($("#cod_admi").val(), $("#cod_contra").val())
               alert("Los datos han sido guardados exitosamente")
             }else{
               alert('Datos invalidos para el acceso')
@@ -597,6 +680,205 @@ function ShowPaciente() {
       }
       
     }
+
+    function guardar_myt_detalle_recobro() {
+      if ($('#cod_admi').val().length > 0) {
+        $.ajax({
+          type : 'POST',
+          data: $("#form_guardar_myt_detalle_recobro").serialize()+"&cod_admi="+$('#cod_admi').val()+"&cod_contra="+$('#cod_contra').val()+"&id="+$('#id_detalle_recobro').val(),
+          url: 'php/guardar_detalle_recobro.php',
+          beforeSend: function() {
+              $(".loader").css("display", "inline-block")
+          },
+          success: function(respuesta) {
+            $(".loader").css("display", "none")
+            let obj = JSON.parse(respuesta)
+            if (obj.success) {
+              $("#modal_close_detalle_recobro").click()
+              detalle_recobro($("#cod_admi").val(), $("#cod_contra").val())
+              //alert("Los datos han sido guardados exitosamente")
+            }else{
+              alert('No se han podido guardar los datos')
+            }
+          },
+          error: function() {
+            console.log("No se ha podido obtener la información");
+          }
+        });
+      }else{
+        alert("Usted aun no ha realizado la busqueda del paciente a registrar.")
+      }
+      
+    }
+
+  function detalle_recobro(cod_admi, cod_contra) {
+    let values = { 
+          cod: '4',
+          parametro1: cod_admi,
+          parametro2: cod_contra
+    };
+    $.ajax({
+    type : 'POST',
+    data: values,
+    url: 'php/sel_info_paciente.php',
+    beforeSend: function() {
+        //$(".loader").css("display", "inline-block")
+    },
+    success: function(respuesta) {
+      $(".loader").css("display", "none")
+        let obj = JSON.parse(respuesta)
+        let fila = ''
+        let item = 0
+        if (respuesta !== '[[]]') {
+          $.each(obj[0], function( index, val ) {
+            item++;
+             fila += '<tr onclick="filtrar_detalle_recobro('+val.consec+')">'+
+                        '<td>'+item+'</td>'+
+                        '<td>'+val.n_acta_ctc+'</td>'+
+                        '<td>'+val.fecha_acta_ctc+'</td>'+
+                        '<td>'+val.fecha_soli_medica+'</td>'+
+                        '<td>'+val.periodico+'</td>'+
+                        '<td>'+val.perio_sumi+'</td>'+
+                        '<td>'+val.n_factura+'</td>'+
+                        '<td>'+val.fecha_presenta_servicio+'</td>'+
+                        '<td>'+val.fecha_radica_factu+'</td>'+
+                        '<td>'+val.codigo_diag+'</td>'+
+                        '<td>'+val.semanas+'</td>'+
+                        '<td>'+val.nit_proveedor+'</td>'+
+                        '<td>'+val.nombre_proveedor+'</td>'+
+                        '<td>'+val.codigo_medi_serv+'</td>'+
+                        '<td class="nombre_medicamento" >'+val.nombre_medi_serv+'</td>'+
+                        '<td>'+item+'</td>'+
+                        '<td>'+val.cantidad+'</td>'+
+                        '<td>'+val.valor_unit+'</td>'+
+                        '<td>'+val.valor_total+'</td>'+
+                        '<td>'+val.valor_cuota_mode+'</td>'+
+                        '<td>'+val.valor_valor_recobro+'</td>'+
+                      '</tr>';
+          });
+          $("#detalle_recobro").html(fila);
+        }else{
+          $("#detalle_recobro").html("");
+          // iniciar_modal(mensajeNuevo)
+        }
+        //$('#example').DataTable().ajax.reload();
+    },
+    error: function() {
+      $(".loader").css("display", "")
+      console.log("No se ha podido obtener la información");
+    }
+  });
+    
+  }
+
+  function detalle_medicamento(cod_admi, cod_contra) {
+    let values = { 
+          cod: '6',
+          parametro1: cod_admi,
+          parametro2: cod_contra
+    };
+    $.ajax({
+    type : 'POST',
+    data: values,
+    url: 'php/sel_info_paciente.php',
+    beforeSend: function() {
+        //$(".loader").css("display", "inline-block")
+    },
+    success: function(respuesta) {
+      $(".loader").css("display", "none")
+        let obj = JSON.parse(respuesta)
+        let fila = ''
+        let item = 0
+        if (respuesta !== '[[]]') {
+          $.each(obj[0], function( index, val ) {
+            item++;
+             fila += '<tr onclick="filtrar_detalle_medicamento('+val.consec+')">'+
+                        '<td>'+item+'</td>'+
+                        '<td class="nombre_medicamento">'+val.nombre+'</td>'+
+                        '<td>'+val.presentacion+'</td>'+
+                        '<td>'+val.f_uso1+'</td>'+
+                        '<td>'+val.dia_autoriza+'</td>'+
+			                  '<td>'+val.cantidad1+'</td>'+
+                        '<td>'+val.valor_unit1+'</td>'+
+                        '<td>'+val.valor_total1+'</td>'+
+                        '<td>'+val.codigo_similar+'</td>'+
+                        '<td>'+val.nombre_similar+'</td>'+
+			                  '<td>'+val.f_uso2+'</td>'+
+                        '<td>'+val.timpo_dia+'</td>'+
+                        '<td>'+val.cantidad2+'</td>'+
+                        '<td>'+val.valor_unit2+'</td>'+
+                        '<td>'+val.valor_total2+'</td>'+
+                      '</tr>';
+          });
+          $("#detalle_medicamento").html(fila);
+        }else{
+          $("#detalle_medicamento").html("");
+          // iniciar_modal(mensajeNuevo)
+        }
+        //$('#example').DataTable().ajax.reload();
+    },
+    error: function() {
+      $(".loader").css("display", "")
+      console.log("No se ha podido obtener la información");
+    }
+  });
+    
+  }
+
+  function filtrar_detalle_recobro(id) {
+    let values = { 
+          cod: '5',
+          parametro1: id,
+          parametro2: '0'
+    };
+    $.ajax({
+    type : 'POST',
+    data: values,
+    url: 'php/sel_info_paciente.php',
+    beforeSend: function() {
+        //$(".loader").css("display", "inline-block")
+    },
+    success: function(respuesta) {
+      $(".loader").css("display", "none")
+        let obj = JSON.parse(respuesta)
+        let fila = ''
+        if (respuesta !== '[[]]') {
+          $.each(obj[0], function( index, val ) {
+            $("#id_detalle_recobro").val(val.consec);
+            $("#n_acta_ctc1").val(val.n_acta_ctc);
+            $("#fecha_acta_ctc1").val(val.fecha_acta_ctc);
+            $("#fecha_soli_medica1").val(val.fecha_soli_medica);
+            $("#periodico1").val(val.periodico);
+            $("#perio_sumi1").val(val.perio_sumi);
+            $("#n_factura1").val(val.n_factura);
+            $("#fecha_presenta_servicio1").val(val.fecha_presenta_servicio);
+            $("#fecha_radica_factu1").val(val.fecha_radica_factu);
+            $("#codigo_diag1").val(val.codigo_diag);
+            $("#semanas1").val(val.semanas);
+            $("#nit_proveedor1").val(val.nit_proveedor);
+            $("#nombre_proveedor1").val(val.nombre_proveedor);
+            $("#codigo_medi_serv1").val(val.codigo_medi_serv);
+            $("#nombre_medi_serv1").val(val.nombre_medi_serv);
+            $("#cantidad1").val(val.cantidad);
+            $("#valor_unit1").val(val.valor_unit);
+            $("#valor_total1").val(val.valor_total);
+            $("#valor_cuota_mode1").val(val.valor_cuota_mode);
+            $("#valor_valor_recobro1").val(val.valor_valor_recobro);
+            $("#btn_modal_detalle_recobro").click();
+          });
+        }else{
+          // $("#detalle_recobro").html("");
+          // iniciar_modal(mensajeNuevo)
+        }
+        //$('#example').DataTable().ajax.reload();
+    },
+    error: function() {
+      $(".loader").css("display", "")
+      console.log("No se ha podido obtener la información");
+    }
+  });
+    
+  }
 
   function limpiar_informacion() {
     $("#cod_pacien").val("");
@@ -625,6 +907,7 @@ function ShowPaciente() {
     $("#of_folio1").val("0");
     $("#si_folio1").val("0");
     $("#radi_ant_reposa1").val("0");
+    $("#detalle_recobro").html("");
   }
 
   function iniciar_modal(text) {

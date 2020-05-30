@@ -168,7 +168,7 @@ $tbl =
         <td colspan="2">
         	<table cellspacing="0" cellpadding="1" border="1">
 			    <tr>
-			        <td colspan="2">I. Datos del recobro</td>
+			        <td style="font-weight: bold;" colspan="2">I. Datos del recobro</td>
 			    </tr>
 
 			</table>
@@ -177,23 +177,20 @@ $tbl =
 			        <td colspan="2">
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
-						        <td colspan="6">No. Consecutivo para radicación:</td>
+						        <td style="font-weight: bold;" colspan="6">No. Consecutivo para radicación:</td>
 						        <td colspan="2">'.$results1[0][0]['conse_radi'].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="6">No. Consecutivo recobro:</td>
+						        <td style="font-weight: bold;" colspan="6">No. Consecutivo recobro:</td>
 						        <td colspan="2">'.$results1[0][0]['conse_reco'].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="6">Tipo de radicación:</td>
+						        <td style="font-weight: bold;" colspan="6">Tipo de radicación:</td>
 						        <td colspan="2">'.$results1[0][0]['tipo_radi'].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="6">No. Radicación recobro anterior MYT-01:</td>
+						        <td style="font-weight: bold;" colspan="6">No. Radicación recobro anterior MYT-01:</td>
 						        <td colspan="2">'.$results1[0][0]['radi_reco_ant'].'</td>
-						    </tr>
-						    <tr>
-						        <td></td>
 						    </tr>
 						    <tr>
 						        <td></td>
@@ -212,7 +209,7 @@ $tbl =
         <td colspan="5">
         	<table cellspacing="0" cellpadding="1" border="1">
 			    <tr>
-			        <td colspan="2">II. Datos de la entidad</td>
+			        <td style="font-weight: bold;" colspan="2">II. Datos de la entidad</td>
 			    </tr>
 
 			</table>
@@ -221,11 +218,11 @@ $tbl =
 			        <td colspan="2">
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
-						        <td colspan="2">Código SNS:</td>
+						        <td style="font-weight: bold;" colspan="2">Código SNS:</td>
 						        <td colspan="10">'.$results[0][0]["codmin"].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="2">Razón social:</td>
+						        <td style="font-weight: bold;" colspan="2">Razón social:</td>
 						        <td colspan="10">'.$results[0][0]["nom_ase"].'</td>
 						    </tr>
 						    <tr>
@@ -253,12 +250,12 @@ $tbl =
         <td colspan="2">
         	<table cellspacing="0" cellpadding="1" border="1">
 			    <tr>
-			        <td colspan="2">V. Declaracion de la entidad</td>
+			        <td style="font-weight: bold;" colspan="2">V. Declaracion de la entidad</td>
 			    </tr>
 
 			</table>
 			<table style="font-size:8px;" cellspacing="0" cellpadding="1" border="1">
-			    <tr>
+			    <tr style="font-weight: bold;">
 			        <td colspan="6">
 			        	Documento
 			        </td>
@@ -276,22 +273,22 @@ $tbl =
 			        <td colspan="2">
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
-						        <td colspan="6">Copia(s) de Acta(s) del CTC / TUTELA</td>
+						        <td style="font-weight: bold;" colspan="6">Copia(s) de Acta(s) del CTC / TUTELA</td>
 						        <td colspan="2">'.$results1[0][0]['ca_doc'].'</td>
 						        <td colspan="2">'.$results1[0][0]['ca_folio'].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="6">Facturas(s) del Proveedor(es) Cancelada(s)</td>
+						        <td style="font-weight: bold;" colspan="6">Facturas(s) del Proveedor(es) Cancelada(s)</td>
 						        <td colspan="2">'.$results1[0][0]['fp_doc'].'</td>
 						        <td colspan="2">'.$results1[0][0]['fp_folio'].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="6">Formula(s) Médica(s)</td>
+						        <td style="font-weight: bold;" colspan="6">Formula(s) Médica(s)</td>
 						        <td colspan="2">'.$results1[0][0]['of_doc'].'</td>
 						        <td colspan="2">'.$results1[0][0]['of_folio'].'</td>
 						    </tr>
 						    <tr>
-						        <td colspan="6">Documento que evidencie la entrega del medicame</td>
+						        <td style="font-weight: bold;" colspan="6">Documento que evidencie la entrega del medicame</td>
 						        <td colspan="2">'.$results1[0][0]['si_doc'].'</td>
 						        <td colspan="2">'.$results1[0][0]['si_folio'].'</td>
 						    </tr>
@@ -303,7 +300,7 @@ $tbl =
 			</table>
 			<table style="font-size:8px;" cellspacing="0" cellpadding="1" border="1">
 			    <tr>
-			        <td colspan="6">
+			        <td style="font-weight: bold;" colspan="6">
 			        	Totales
 			        </td>
 			        <td colspan="2">
@@ -321,7 +318,7 @@ $tbl =
         <td colspan="7">
         	<table cellspacing="0" cellpadding="1" border="1">
 			    <tr>
-			        <td colspan="2">III. Datos del afiliado</td>
+			        <td style="font-weight: bold;" colspan="2">III. Datos del afiliado</td>
 			    </tr>
 
 			</table>
@@ -330,28 +327,28 @@ $tbl =
 			        <td colspan="2">
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
-						        <td >Tipo de documento:</td>
+						        <td style="font-weight: bold;" >Tipo de documento:</td>
 						        <td colspan="2">'.$results[0][0]['tipo_id_pacien'].'</td>
-						        <td>Nùmero de Documento:</td>
+						        <td style="font-weight: bold;" >N° de Documento:</td>
 						        <td>'.$results[0][0]['cod_pacien'].'</td>
 						        <td></td>
 						        <td></td>
 						        <td></td>
 						    </tr>
 						    <tr>
-						        <td >Primer apellido: </td>
+						        <td style="font-weight: bold;" >Primer apellido: </td>
 						        <td >'.$results[0][0]['apell1'].'</td>
-						        <td>Segundo apellido:</td>
+						        <td style="font-weight: bold;" >Segundo apellido:</td>
 						        <td>'.$results[0][0]['apell2'].'</td>
-						        <td>Primer Nombre :</td>
+						        <td style="font-weight: bold;" >Primer Nombre :</td>
 						        <td>'.$results[0][0]['nom1'].'</td>
-						        <td>Segundo Nombre :</td>
+						        <td style="font-weight: bold;" >Segundo Nombre :</td>
 						        <td>'.$results[0][0]['nom2'].'</td>
 						    </tr>
 						    <tr>
-						        <td>Tipo de afiliación:</td>
+						        <td style="font-weight: bold;" >Tipo de afiliación:</td>
 						        <td colspan="2">'.$results[0][0]['tipoafiliado'].'</td>
-						        <td colspan="2">Nivel de cuota moderadora:</td>
+						        <td style="font-weight: bold;" colspan="2">Nivel de cuota moderadora:</td>
 						        <td>'.$results[0][0]['nivel'].'</td>
 						        <td></td>
 						        <td></td>
@@ -365,7 +362,7 @@ $tbl =
         <td colspan="2">
         	<table style="font-size:8px;" cellspacing="0" cellpadding="1" border="1">
 			    <tr>
-			        <td colspan="2">Datos de la solicitud en la que se anexó la copia del Acta o del Recobro Anterior</td>
+			        <td style="font-weight: bold;" colspan="2">Datos de la solicitud en la que se anexó la copia del Acta o del Recobro Anterior</td>
 			    </tr>
 
 			</table>
@@ -374,7 +371,7 @@ $tbl =
 			        <td colspan="2">
 						<table style="font-size:8px;" cellspacing="5" cellpadding="1" border="0">
 						    <tr>
-						        <td colspan="6">No. Radicación recobro anterior reposa acta CTC MYT-01</td>
+						        <td style="font-weight: bold;" colspan="6">No. Radicación recobro anterior reposa acta CTC MYT-01</td>
 						        <td colspan="2">'.$results1[0][0]['radi_ant_reposa'].'</td>
 						    </tr>
 						    <tr>
@@ -387,10 +384,93 @@ $tbl =
 			</table>
         </td>
 	</tr>
+</table>
+<table cellspacing="3" cellpadding="2" border="0">
 	<tr>
 		<td colspan="12">
+			<table cellpadding="1" border="1">
+				<tr style="font-weight: bold;" >
+					<td colspan="2">IV. Detalles del recobro</td>
+				</tr>
+
+			</table>
+			<table cellspacing="0" cellpadding="1" border="1">
+				<tr>
+					<td colspan="2">
+						<table style="font-size:7px;" cellspacing="5" cellpadding="1" border="0">
+							<tr style="font-weight: bold;">
+								<td>Item</td>
+								<td>No.Acta CTC</td>
+								<td>Fecha Acta CTC</td>
+								<td>Solicitud Médica</td>
+								<td>Periodico (S/N)</td>
+								<td>Periodo Suministro</td>
+								<td>No. Factura</td>
+								<td>Fecha Factura</td>
+								<td>Entrega Medicamento</td>
+								<td>NIT Proveedor</td>
+								<td>Nombre Proveedor</td>
+								<td>Codigo Medicamento (INVIMA)</td>
+								<td>Nombre Medicamento</td>
+								<td>Cantidad</td>
+								<td>Valor Factura</td>
+								<td>Valor Cuota Moderadora</td>
+								<td>Valor Recobro</td>
+							</tr>
+							<tr>
+								<td></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+			</table>
 		</td>
-	</td>
+	</tr>
+	<tr>
+		<td colspan="12">
+			<table cellpadding="1" border="1">
+				<tr>
+					<td style="font-weight: bold;" >IV.a. Datos de medicamento , servicios medico y/o prestacion de la salud NO POS</td>
+				</tr>
+			</table>
+			<table cellpadding="1" border="1">
+				<tr style="font-weight: bold;">
+					<td>MEDICAMENTO / SERVICIO MEDICO / PRESTACION DE SALUD - NO POS</td>
+					<td>SIMILAR O QUE REEMPLAZA POS</td>
+				</tr>
+			</table>
+			<table cellspacing="0" cellpadding="1" border="1">
+				<tr>
+					<td colspan="2">
+						<table style="font-size:7px;" cellspacing="5" cellpadding="1" border="0">
+							<tr style="font-weight: bold;">
+								<td>Item</td>
+								<td>Nombre</td>
+								<td>Presentación</td>
+								<td>Frecuencia Uso</td>
+								<td>Días Autorizados</td>
+								<td>Cantidad</td>
+								<td>Valor Unitario</td>
+								<td>Valor Total</td>
+								<td>Codigo Similar POS</td>
+								<td>Nombre del Similar</td>
+								<td>Frecuencia Uso</td>
+								<td>Tiempo Días</td>
+								<td>Cantidad</td>
+								<td>Valor Unitario</td>
+								<td>Valor Total</td>
+							</tr>
+							<tr>
+								<td></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+
+			</table>
+		</td>
+	</tr>
 </table>';
 
 $pdf->writeHTML($tbl, true, false, false, false, '');
