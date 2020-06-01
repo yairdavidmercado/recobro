@@ -185,7 +185,7 @@ try {
 } catch (\Throwable $th3) {
 	print $th3->getMessage();
 }
-$suma_total = number_format($suma_total_recobro+$suma_total_medicamento, 2);
+$suma_total = number_format($suma_total_recobro-$suma_total_medicamento, 2);
 //echo $results1[0][0]['cod_admi'];
 // $tipo_id_pacien = $results[0][0]['tipo_id_pacien'];
 //============================================================+
