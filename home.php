@@ -16,6 +16,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <meta name="theme-color" content="#563d7c">
 
@@ -218,6 +219,7 @@
               <table>
                 <thead>
                 <tr>
+                  <th></th>
                   <th>Item</th>
                   <th>No.Acta CTC</th>
                   <th>Fecha Acta CTC</th>
@@ -283,6 +285,7 @@
               <table>
                 <thead>
                 <tr>
+                  <th></th>
                   <th>Item</th>
                   <th>Nombre</th>
                   <th>Presentación</th>
@@ -525,6 +528,91 @@
       </div>
     </div>
     
+    <!-- Large modal -->
+    <button type="button" style="display:none" id="btn_modal_detalle_medicamento" class="btn btn-primary" data-toggle="modal" data-target="#modal_detalle_medicamento">Large modal</button>
+
+    <div class="modal fade bd-example-modal-lg" id="modal_detalle_medicamento" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form class="form card" id="form_guardar_myt_detalle_medicamento" role="form" methods="POST" onsubmit="event.preventDefault(); return guardar_myt_detalle_medicamento();" autocomplete="off">
+            <div class="card-header">
+              <button type="button" id="modal_close_detalle_medicamento" class="close float-right" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h5>Medicamentos</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                  <div class="col-sm-4" style="display:none">
+                    <!-- <input type="text" id="cod_admin_detalle_medicamento1" class="form-control input-sm">
+                    <input type="text" id="cod_contra_detalle_medicamento1" class="form-control input-sm"> -->
+                    <input type="text" id="id_detalle_medicamento" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Nombre</label>
+                    <input type="text" id="nombre1" name="nombre" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Presentación</label>
+                    <input type="text" id="presentacion1" name="presentacion" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Frecuencia Uso</label>
+                    <input type="text" id="f_uso11" name="f_uso1" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Días Autorizados</label>
+                    <input type="text" id="dia_autoriza1" name="dia_autoriza" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Cantidad</label>
+                    <input type="text" id="cantidad11" name="cantidad1" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Unitario</label>
+                    <input type="text" id="valor_unit11" name="valor_unit1" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Total</label>
+                    <input type="text" id="valor_total11" name="valor_total1" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Codigo Similar POS</label>
+                    <input type="text" id="codigo_similar1" name="codigo_similar" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Nombre del Similar</label>
+                    <input type="text" id="nombre_similar1" name="nombre_similar" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Frecuencia Uso</label>
+                    <input type="text" id="f_uso21" name="f_uso2" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Tiempo Días</label>
+                    <input type="text" id="timpo_dia1" name="timpo_dia" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Cantidad</label>
+                    <input type="text" id="cantidad21" name="cantidad2" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Unitario</label>
+                    <input type="text" id="valor_unit21" name="valor_unit2" class="form-control input-sm">
+                  </div>
+                  <div class="col-sm-4">
+                    <label for="">Valor Total</label>
+                    <input type="text" id="valor_total21" name="valor_total2" class="form-control input-sm">
+                  </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="float-right btn btn-success">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </main>
@@ -711,6 +799,72 @@ function ShowPaciente() {
       
     }
 
+    function guardar_myt_detalle_medicamento() {
+      if ($('#cod_admi').val().length > 0) {
+        $.ajax({
+          type : 'POST',
+          data: $("#form_guardar_myt_detalle_medicamento").serialize()+"&cod_admi="+$('#cod_admi').val()+"&cod_contra="+$('#cod_contra').val()+"&id="+$('#id_detalle_medicamento').val(),
+          url: 'php/guardar_detalle_medicamento.php',
+          beforeSend: function() {
+              $(".loader").css("display", "inline-block")
+          },
+          success: function(respuesta) {
+            $(".loader").css("display", "none")
+            let obj = JSON.parse(respuesta)
+            if (obj.success) {
+              $("#modal_close_detalle_medicamento").click()
+              detalle_medicamento($("#cod_admi").val(), $("#cod_contra").val())
+              //alert("Los datos han sido guardados exitosamente")
+            }else{
+              alert('No se han podido guardar los datos')
+            }
+          },
+          error: function() {
+            console.log("No se ha podido obtener la información");
+          }
+        });
+      }else{
+        alert("Usted aun no ha realizado la busqueda del paciente a registrar.")
+      }
+      
+    }
+
+    function actualizar_detalles(cod, parametro1, parametro2) {
+      if ($('#cod_admi').val().length > 0) {
+        let values = { 
+              cod: cod,
+              parametro1: parametro1,
+              parametro2: parametro2
+        };
+        $.ajax({
+          type : 'POST',
+          data: values,
+          url: 'php/actualizar_detalles.php',
+          beforeSend: function() {
+          },
+          success: function(respuesta) {
+            let obj = JSON.parse(respuesta)
+            if (obj.success) {
+              if (cod == '1') {
+                detalle_recobro($("#cod_admi").val(), $("#cod_contra").val())
+              }else if (cod == '2') {
+                detalle_medicamento($("#cod_admi").val(), $("#cod_contra").val()) 
+              }
+
+            }else{
+              alert('No se han podido guardar los datos')
+            }
+          },
+          error: function() {
+            console.log("No se ha podido obtener la información");
+          }
+        });
+      }else{
+        alert("Usted aun no ha realizado la busqueda del paciente a registrar.")
+      }
+      
+    }
+
   function detalle_recobro(cod_admi, cod_contra) {
     let values = { 
           cod: '4',
@@ -729,31 +883,41 @@ function ShowPaciente() {
         let obj = JSON.parse(respuesta)
         let fila = ''
         let item = 0
+        let btn = ''
+        let color = ''
         if (respuesta !== '[[]]') {
           $.each(obj[0], function( index, val ) {
             item++;
-             fila += '<tr onclick="filtrar_detalle_recobro('+val.consec+')">'+
-                        '<td>'+item+'</td>'+
-                        '<td>'+val.n_acta_ctc+'</td>'+
-                        '<td>'+val.fecha_acta_ctc+'</td>'+
-                        '<td>'+val.fecha_soli_medica+'</td>'+
-                        '<td>'+val.periodico+'</td>'+
-                        '<td>'+val.perio_sumi+'</td>'+
-                        '<td>'+val.n_factura+'</td>'+
-                        '<td>'+val.fecha_presenta_servicio+'</td>'+
-                        '<td>'+val.fecha_radica_factu+'</td>'+
-                        '<td>'+val.codigo_diag+'</td>'+
-                        '<td>'+val.semanas+'</td>'+
-                        '<td>'+val.nit_proveedor+'</td>'+
-                        '<td>'+val.nombre_proveedor+'</td>'+
-                        '<td>'+val.codigo_medi_serv+'</td>'+
-                        '<td class="nombre_medicamento" >'+val.nombre_medi_serv+'</td>'+
-                        '<td>'+item+'</td>'+
-                        '<td>'+val.cantidad+'</td>'+
-                        '<td>'+val.valor_unit+'</td>'+
-                        '<td>'+val.valor_total+'</td>'+
-                        '<td>'+val.valor_cuota_mode+'</td>'+
-                        '<td>'+val.valor_valor_recobro+'</td>'+
+            if (val.estado == true) {
+              color = ''
+              btn = '<span onclick="actualizar_detalles(1, false, '+val.consec+')"><i class="fa fa-minus"></i></span>'
+            }else{
+              color = '#ffdba3'
+              btn = '<span onclick="actualizar_detalles(1, true, '+val.consec+')"><i class="fa fa-plus"></i></span>'
+            }
+             fila += '<tr style="background-color:'+color+'" >'+
+                        '<td>'+btn+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+item+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.n_acta_ctc+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.fecha_acta_ctc+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.fecha_soli_medica+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.periodico+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.perio_sumi+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.n_factura+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.fecha_presenta_servicio+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.fecha_radica_factu+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.codigo_diag+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.semanas+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.nit_proveedor+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.nombre_proveedor+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.codigo_medi_serv+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')" class="nombre_medicamento" >'+val.nombre_medi_serv+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+item+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.cantidad+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_unit+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_total+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_cuota_mode+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_valor_recobro+'</td>'+
                       '</tr>';
           });
           $("#detalle_recobro").html(fila);
@@ -789,25 +953,35 @@ function ShowPaciente() {
         let obj = JSON.parse(respuesta)
         let fila = ''
         let item = 0
+        let btn = ''
+        let color = ''
         if (respuesta !== '[[]]') {
           $.each(obj[0], function( index, val ) {
             item++;
-             fila += '<tr onclick="filtrar_detalle_medicamento('+val.consec+')">'+
-                        '<td>'+item+'</td>'+
-                        '<td class="nombre_medicamento">'+val.nombre+'</td>'+
-                        '<td>'+val.presentacion+'</td>'+
-                        '<td>'+val.f_uso1+'</td>'+
-                        '<td>'+val.dia_autoriza+'</td>'+
-			                  '<td>'+val.cantidad1+'</td>'+
-                        '<td>'+val.valor_unit1+'</td>'+
-                        '<td>'+val.valor_total1+'</td>'+
-                        '<td>'+val.codigo_similar+'</td>'+
-                        '<td>'+val.nombre_similar+'</td>'+
-			                  '<td>'+val.f_uso2+'</td>'+
-                        '<td>'+val.timpo_dia+'</td>'+
-                        '<td>'+val.cantidad2+'</td>'+
-                        '<td>'+val.valor_unit2+'</td>'+
-                        '<td>'+val.valor_total2+'</td>'+
+            if (val.estado == true) {
+              color = ''
+              btn = '<span onclick="actualizar_detalles(2, false, '+val.consec+')"><i class="fa fa-minus"></i></span>'
+            }else{
+              color = '#ffdba3'
+              btn = '<span onclick="actualizar_detalles(2, true, '+val.consec+')"><i class="fa fa-plus"></i></span>'
+            }
+             fila += '<tr style="background-color:'+color+'">'+
+                        '<td>'+btn+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+item+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')" class="nombre_medicamento">'+val.nombre+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.presentacion+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.f_uso1+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.dia_autoriza+'</td>'+
+			                  '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.cantidad1+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_unit1+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_total1+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.codigo_similar+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.nombre_similar+'</td>'+
+			                  '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.f_uso2+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.timpo_dia+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.cantidad2+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_unit2+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_total2+'</td>'+
                       '</tr>';
           });
           $("#detalle_medicamento").html(fila);
@@ -865,6 +1039,56 @@ function ShowPaciente() {
             $("#valor_cuota_mode1").val(val.valor_cuota_mode);
             $("#valor_valor_recobro1").val(val.valor_valor_recobro);
             $("#btn_modal_detalle_recobro").click();
+          });
+        }else{
+          // $("#detalle_recobro").html("");
+          // iniciar_modal(mensajeNuevo)
+        }
+        //$('#example').DataTable().ajax.reload();
+    },
+    error: function() {
+      $(".loader").css("display", "")
+      console.log("No se ha podido obtener la información");
+    }
+  });
+    
+  }
+
+  function filtrar_detalle_medicamento(id) {
+    let values = { 
+          cod: '7',
+          parametro1: id,
+          parametro2: '0'
+    };
+    $.ajax({
+    type : 'POST',
+    data: values,
+    url: 'php/sel_info_paciente.php',
+    beforeSend: function() {
+        //$(".loader").css("display", "inline-block")
+    },
+    success: function(respuesta) {
+      $(".loader").css("display", "none")
+        let obj = JSON.parse(respuesta)
+        let fila = ''
+        if (respuesta !== '[[]]') {
+          $.each(obj[0], function( index, val ) {
+            $("#id_detalle_medicamento").val(val.consec);
+            $("#nombre1").val(val.nombre);
+            $("#presentacion1").val(val.presentacion);
+            $("#f_uso11").val(val.f_uso1);
+            $("#dia_autoriza1").val(val.dia_autoriza);
+            $("#cantidad11").val(val.cantidad1);
+            $("#valor_unit11").val(val.valor_unit1);
+            $("#valor_total11").val(val.valor_total1);
+            $("#codigo_similar1").val(val.codigo_similar);
+            $("#nombre_similar1").val(val.nombre_similar);
+            $("#f_uso21").val(val.f_uso2);
+            $("#timpo_dia1").val(val.timpo_dia);
+            $("#cantidad21").val(val.cantidad2);
+            $("#valor_unit21").val(val.valor_unit2);
+            $("#valor_total21").val(val.valor_total2);
+            $("#btn_modal_detalle_medicamento").click();
           });
         }else{
           // $("#detalle_recobro").html("");

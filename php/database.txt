@@ -548,7 +548,7 @@ if not found then
 		cod_contra = cod_contra1::integer, 
 		nombre = nombre1, 
 		presentacion = presentacion1, 
-		f_uso = f_uso11, 
+		f_uso1 = f_uso11, 
 		dia_autoriza = dia_autoriza1, 
 		cantidad1 = cantidad11::integer, 
 		valor_unit1 = valor_unit11::numeric, 
@@ -567,6 +567,7 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
+
 ALTER FUNCTION guardar_myt_datos_medicamento(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character)
   OWNER TO postgres;
 -- Function: guardar_myt_detalle_recobro(character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character, character)
