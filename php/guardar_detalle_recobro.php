@@ -21,7 +21,7 @@ include 'conexion.php';
             $nombre_medi_serv1          = addslashes($_POST["nombre_medi_serv"]);
             $cantidad1                  = $_POST["cantidad"];
             $valor_unit1                = $_POST["valor_unit"];
-            $valor_total1               = $_POST["valor_total"];
+            $valor_total1               = $_POST["cantidad"]*$_POST["valor_unit"];//$_POST["valor_total"];
             $valor_cuota_mode1          = $_POST["valor_cuota_mode"];
             $valor_valor_recobro1       = $_POST["valor_valor_recobro"];
 

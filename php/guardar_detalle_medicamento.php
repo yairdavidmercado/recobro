@@ -11,14 +11,14 @@ include 'conexion.php';
             $dia_autoriza               = $_POST["dia_autoriza"];
             $cantidad1                  = $_POST["cantidad1"];
             $valor_unit1                = $_POST["valor_unit1"]; 
-            $valor_total1               = $_POST["valor_total1"]; 
+            $valor_total1               = $_POST["cantidad1"]*$_POST["valor_unit1"];//$_POST["valor_total1"]; 
             $codigo_similar             = $_POST["codigo_similar"]; 
             $nombre_similar             = $_POST["nombre_similar"]; 
             $f_uso2                     = $_POST["f_uso2"];
             $timpo_dia                  = $_POST["timpo_dia"]; 
             $cantidad2                  = $_POST["cantidad2"]; 
             $valor_unit2                = $_POST["valor_unit2"]; 
-            $valor_total2               = $_POST["valor_total2"]; 
+            $valor_total2               = $_POST["cantidad2"]*$_POST["valor_unit2"];//$_POST["valor_total2"]; 
 
  $conn = pg_connect("user=".DB_USER." password=".DB_PASS." port=".DB_PORT." dbname=".DB_NAME." host=".DB_HOST);
 	try{
