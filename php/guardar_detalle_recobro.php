@@ -23,7 +23,7 @@ include 'conexion.php';
             $valor_unit1                = $_POST["valor_unit"];
             $valor_total1               = $_POST["cantidad"]*$_POST["valor_unit"];//$_POST["valor_total"];
             $valor_cuota_mode1          = $_POST["valor_cuota_mode"];
-            $valor_valor_recobro1       = $_POST["valor_valor_recobro"];
+            $valor_valor_recobro1       = $_POST["cantidad"]*$_POST["valor_unit"];//$_POST["valor_valor_recobro"];
 
  $conn = pg_connect("user=".DB_USER." password=".DB_PASS." port=".DB_PORT." dbname=".DB_NAME." host=".DB_HOST);
 	try{

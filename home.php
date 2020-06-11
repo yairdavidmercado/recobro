@@ -12,7 +12,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/offcanvas/">
 
     <!-- Bootstrap core CSS -->
-<link href="/gestion_documental/assets/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<link href="/recobro/assets/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
@@ -44,7 +44,7 @@
         width: 100%;
         height: 100%;
         z-index: 9999;
-        background: url('/gestion_documental/assets/img/loader.gif') 
+        background: url('/recobro/assets/img/loader.gif') 
                     50% 50% no-repeat rgb(249,249,249);
       }
 
@@ -444,79 +444,79 @@
                   </div>
                   <div class="col-sm-4">
                     <label for="">No.Acta CTC</label>
-                    <input type="text" id="n_acta_ctc1" name="n_acta_ctc" class="form-control input-sm">
+                    <input type="text" id="n_acta_ctc1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="n_acta_ctc" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Fecha Acta CTC</label>
-                    <input type="text" id="fecha_acta_ctc1" name="fecha_acta_ctc" class="form-control input-sm">
+                    <input type="text" id="fecha_acta_ctc1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="fecha_acta_ctc" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Fecha Solicitud Médico</label>
-                    <input type="text" id="fecha_soli_medica1" name="fecha_soli_medica" class="form-control input-sm">
+                    <input type="text" id="fecha_soli_medica1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="fecha_soli_medica" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Periodico (S/N)</label>
-                    <input type="text" id="periodico1" name="periodico" class="form-control input-sm">
+                    <input type="text" id="periodico1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="periodico" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Periodo Suministro</label>
-                    <input type="text" id="perio_sumi1" name="perio_sumi" class="form-control input-sm">
+                    <input type="text" id="perio_sumi1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="perio_sumi" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">No. Factura</label>
-                    <input type="text" id="n_factura1" name="n_factura" class="form-control input-sm">
+                    <input type="text" id="n_factura1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="n_factura" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Fecha Prestación de Servicio</label>
-                    <input type="text" id="fecha_presenta_servicio1" name="fecha_presenta_servicio" class="form-control input-sm">
+                    <input type="text" id="fecha_presenta_servicio1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="fecha_presenta_servicio" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Fecha Radicacion Factura</label>
-                    <input type="text" id="fecha_radica_factu1" name="fecha_radica_factu" class="form-control input-sm">
+                    <input type="text" id="fecha_radica_factu1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="fecha_radica_factu" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Codigo Diagnostico (CIE)</label>
-                    <input type="text" id="codigo_diag1" name="codigo_diag" class="form-control input-sm">
+                    <input type="text" id="codigo_diag1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="codigo_diag" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">% Semanas</label>
-                    <input type="text" id="semanas1" name="semanas" class="form-control input-sm">
+                    <input type="text" id="semanas1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="semanas" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">NIT Proveedor</label>
-                    <input type="text" id="nit_proveedor1" name="nit_proveedor" class="form-control input-sm">
+                    <input type="text" id="nit_proveedor1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nit_proveedor" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Nombre Proveedor</label>
-                    <input type="text" id="nombre_proveedor1" name="nombre_proveedor" class="form-control input-sm">
+                    <input type="text" id="nombre_proveedor1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre_proveedor" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Codigo Medicamento.</label>
-                    <input type="text" id="codigo_medi_serv1" name="codigo_medi_serv" class="form-control input-sm">
+                    <input type="text" id="codigo_medi_serv1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="codigo_medi_serv" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Nombre Medicamento.</label>
-                    <input type="text" id="nombre_medi_serv1" name="nombre_medi_serv" class="form-control input-sm">
+                    <input type="text" id="nombre_medi_serv1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre_medi_serv" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Cantidad</label>
-                    <input type="text" id="cantidad1" name="cantidad" class="form-control input-sm">
+                    <input type="number" id="cantidad1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="cantidad" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Unitario</label>
-                    <input type="text" id="valor_unit1" name="valor_unit" class="form-control input-sm">
+                    <input type="number" id="valor_unit1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_unit" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Total</label>
-                    <input type="text" id="valor_total1" name="valor_total" class="form-control input-sm">
+                    <input type="number" disabled id="valor_total1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_total" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Cuota Moderadora</label>
-                    <input type="text" id="valor_cuota_mode1" name="valor_cuota_mode" class="form-control input-sm">
+                    <input type="number" id="valor_cuota_mode1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_cuota_mode" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Recobro</label>
-                    <input type="text" id="valor_valor_recobro1" name="valor_valor_recobro" class="form-control input-sm">
+                    <input type="number" disabled id="valor_valor_recobro1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_valor_recobro" class="form-control input-sm">
                   </div>
               </div>
             </div>
@@ -550,59 +550,59 @@
                   </div>
                   <div class="col-sm-4">
                     <label for="">Nombre</label>
-                    <input type="text" id="nombre1" name="nombre" class="form-control input-sm">
+                    <input type="text" id="nombre1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Presentación</label>
-                    <input type="text" id="presentacion1" name="presentacion" class="form-control input-sm">
+                    <input type="text" id="presentacion1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="presentacion" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Frecuencia Uso</label>
-                    <input type="text" id="f_uso11" name="f_uso1" class="form-control input-sm">
+                    <input type="text" id="f_uso11" onkeyup="javascript:this.value=this.value.toUpperCase();" name="f_uso1" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Días Autorizados</label>
-                    <input type="text" id="dia_autoriza1" name="dia_autoriza" class="form-control input-sm">
+                    <input type="text" id="dia_autoriza1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="dia_autoriza" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Cantidad</label>
-                    <input type="text" id="cantidad11" name="cantidad1" class="form-control input-sm">
+                    <input type="number" id="cantidad11" onkeyup="javascript:this.value=this.value.toUpperCase();" name="cantidad1" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Unitario</label>
-                    <input type="text" id="valor_unit11" name="valor_unit1" class="form-control input-sm">
+                    <input type="number" id="valor_unit11" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_unit1" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
-                    <label for="">Valor Total</label>
-                    <input type="text" id="valor_total11" name="valor_total1" class="form-control input-sm">
+                    <label for="">Total</label>
+                    <input type="number" id="valor_total11" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_total1" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Codigo Similar POS</label>
-                    <input type="text" id="codigo_similar1" name="codigo_similar" class="form-control input-sm">
+                    <input type="text" id="codigo_similar1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="codigo_similar" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Nombre del Similar</label>
-                    <input type="text" id="nombre_similar1" name="nombre_similar" class="form-control input-sm">
+                    <input type="text" id="nombre_similar1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="nombre_similar" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Frecuencia Uso</label>
-                    <input type="text" id="f_uso21" name="f_uso2" class="form-control input-sm">
+                    <input type="text" id="f_uso21" onkeyup="javascript:this.value=this.value.toUpperCase();" name="f_uso2" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Tiempo Días</label>
-                    <input type="text" id="timpo_dia1" name="timpo_dia" class="form-control input-sm">
+                    <input type="text" id="timpo_dia1" onkeyup="javascript:this.value=this.value.toUpperCase();" name="timpo_dia" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Cantidad</label>
-                    <input type="text" id="cantidad21" name="cantidad2" class="form-control input-sm">
+                    <input type="number" id="cantidad21" onkeyup="javascript:this.value=this.value.toUpperCase();" name="cantidad2" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Unitario</label>
-                    <input type="text" id="valor_unit21" name="valor_unit2" class="form-control input-sm">
+                    <input type="number" id="valor_unit21" onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_unit2" class="form-control input-sm">
                   </div>
                   <div class="col-sm-4">
                     <label for="">Valor Total</label>
-                    <input type="text" id="valor_total21" name="valor_total2" class="form-control input-sm">
+                    <input type="number" id="valor_total21" disabled onkeyup="javascript:this.value=this.value.toUpperCase();" name="valor_total2" class="form-control input-sm">
                   </div>
               </div>
             </div>
@@ -616,9 +616,9 @@
   </div>
 </div>
 </main>
-<script src="/gestion_documental/assets/js/jquery.slim.min.js" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/gestion_documental/assets/js/jquery.slim.min.js"><\/script>')</script>
-<script src="/gestion_documental/assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="/recobro/assets/js/jquery.slim.min.js" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/recobro/assets/js/jquery.slim.min.js"><\/script>')</script>
+<script src="/recobro/assets/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -914,10 +914,10 @@ function ShowPaciente() {
                         '<td onclick="filtrar_detalle_recobro('+val.consec+')" class="nombre_medicamento" >'+val.nombre_medi_serv+'</td>'+
                         '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+item+'</td>'+
                         '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.cantidad+'</td>'+
-                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_unit+'</td>'+
-                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_total+'</td>'+
-                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_cuota_mode+'</td>'+
-                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+val.valor_valor_recobro+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+number_format(val.valor_unit)+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+number_format(val.valor_total)+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+number_format(val.valor_cuota_mode)+'</td>'+
+                        '<td onclick="filtrar_detalle_recobro('+val.consec+')">'+number_format(val.valor_valor_recobro)+'</td>'+
                       '</tr>';
           });
           $("#detalle_recobro").html(fila);
@@ -973,15 +973,15 @@ function ShowPaciente() {
                         '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.f_uso1+'</td>'+
                         '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.dia_autoriza+'</td>'+
 			                  '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.cantidad1+'</td>'+
-                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_unit1+'</td>'+
-                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_total1+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+number_format(val.valor_unit1)+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+number_format(val.valor_total1)+'</td>'+
                         '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.codigo_similar+'</td>'+
                         '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.nombre_similar+'</td>'+
 			                  '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.f_uso2+'</td>'+
                         '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.timpo_dia+'</td>'+
                         '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.cantidad2+'</td>'+
-                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_unit2+'</td>'+
-                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+val.valor_total2+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+number_format(val.valor_unit2)+'</td>'+
+                        '<td onclick="filtrar_detalle_medicamento('+val.consec+')">'+number_format(val.valor_total2)+'</td>'+
                       '</tr>';
           });
           $("#detalle_medicamento").html(fila);
@@ -1169,14 +1169,44 @@ function ShowPaciente() {
   }
 
   function tipo_busqueda(consec) {
-        if (consec == "admision") {
-            $("#admision").css("display", "block")
-            $("#factura").css("display", "none")
-        }else{
-            $("#admision").css("display", "none")
-            $("#factura").css("display", "block")
-        }
+      if (consec == "admision") {
+          $("#admision").css("display", "block")
+          $("#factura").css("display", "none")
+      }else{
+          $("#admision").css("display", "none")
+          $("#factura").css("display", "block")
+      }
+  }
+
+  function number_format(number, decimals, dec_point, thousands_point) {
+
+    if (number == null || !isFinite(number)) {
+        throw new TypeError("number is not valid");
     }
+
+    if (!decimals) {
+        var len = number.toString().split('.').length;
+        decimals = len > 1 ? len : 0;
+    }
+
+    if (!dec_point) {
+        dec_point = '.';
+    }
+
+    if (!thousands_point) {
+        thousands_point = ',';
+    }
+
+    number = parseFloat(number).toFixed(decimals);
+
+    number = number.replace(".", dec_point);
+
+    var splitNum = number.split(dec_point);
+    splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+    number = splitNum.join(dec_point);
+
+    return number;
+  }
 </script>
 </body>
 </html>
