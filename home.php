@@ -416,6 +416,7 @@
       <div class="row">
         <div class="col-sm-12 mb-2">
         <button type="submit" id="btn_submit" class="btn btn-success float-right">Guardar</button>
+        <a href="tcpdf/examples/archivo_plano.php" class="btn btn-info mr-2">Descargar anexo técnico</a>
         <div id="btn_imprimir"></div>
         </div>
       </div>
