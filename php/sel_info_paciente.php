@@ -1,6 +1,7 @@
 <?php
 include 'conexion.php';
-$conn = new PDO("pgsql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME, DB_USER, DB_PASS);
+try {
+	$conn = new PDO("pgsql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME, DB_USER, DB_PASS);
 $cod = $_POST["cod"];
 $parametro1 = $_POST["parametro1"];
 $parametro2 = $_POST["parametro2"];
@@ -30,6 +31,9 @@ try {
 
 } catch (\Throwable $th) {
 	print $e->getMessage();
+}
+} catch (PDOEXception $e) {
+	echo $e->getMessage();
 }
 
 ?>

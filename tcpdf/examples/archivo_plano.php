@@ -3,7 +3,7 @@
 include '../../php/conexion.php';
 $conn = new PDO("pgsql:host=".DB_HOST.";port=".DB_PORT.";dbname=".DB_NAME, DB_USER, DB_PASS);
 $cod = '10';
-$parametro1 = '';
+$parametro1 = $_GET["parametro1"];
 $parametro2 = '';
 try {
 	// begin transaction, this is all one process

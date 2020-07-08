@@ -86,6 +86,7 @@
     <hr>
   <!-- <div class="float-right"><img src="assets/img/logos.png" width="300px" alt="" srcset=""></div> -->
     <h4 class="mb-3">Consultar</h4>
+    <a href="cuentas_cobro.php" class="btn btn-info float-right" target="_blank">Anexo técnico</a>
     <div class="row">
       <div class="col-sm-2">
       <label for="">Tipo de Busqueda</label>
@@ -416,7 +417,6 @@
       <div class="row">
         <div class="col-sm-12 mb-2">
         <button type="submit" id="btn_submit" class="btn btn-success float-right">Guardar</button>
-        <a href="tcpdf/examples/archivo_plano.php" class="btn btn-info mr-2">Descargar anexo técnico</a>
         <div id="btn_imprimir"></div>
         </div>
       </div>
